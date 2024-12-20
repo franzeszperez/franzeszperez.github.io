@@ -7,7 +7,6 @@ import { remarkReadingTime } from "./remark-reading-time.mjs";
 export default defineConfig({
   site: 'https://franzeszperez.github.io',
   integrations: [tailwind(), icon()],
-  output: "static",
   markdown: {
     remarkPlugins: [remarkReadingTime],
   },
