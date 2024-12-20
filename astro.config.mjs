@@ -6,7 +6,7 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://franzezsperez.github.io',
+  site: 'https://franzeszperez.github.io',
   integrations: [tailwind(), icon()],
   output: "server",
   adapter: node({
