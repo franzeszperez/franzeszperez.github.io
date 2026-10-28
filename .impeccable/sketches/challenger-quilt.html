@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{background:#2A2622;font-family:'Helvetica Neue',Arial,sans-serif;color:#F0E8DA;padding:34px 44px}
+  .rail{display:flex;justify-content:space-between;align-items:baseline;
+        border-bottom:2px dashed #C8352B;padding-bottom:10px;margin-bottom:18px}
+  .mast{font-size:14px;letter-spacing:.38em;text-transform:uppercase;font-weight:700}
+  .iss{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+
+  .quilt{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.1fr;
+         grid-template-rows:1.45fr 1fr .62fr;gap:11px;height:716px;position:relative}
+  .patch{position:relative;padding:20px;overflow:hidden}
+  .patch::after{content:'';position:absolute;inset:7px;border:2px dashed rgba(240,232,218,.4)}
+  .patch h2{font-size:19px;font-weight:700;line-height:1.14;position:relative;z-index:2}
+  .patch .d{font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:7px;
+            opacity:.82;font-variant-numeric:tabular-nums;position:relative;z-index:2}
+  .patch .t{font-size:12.5px;margin-top:11px;line-height:1.4;opacity:.9;position:relative;z-index:2}
+
+  .chambray{background:#54657A;
+    background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 7px)}
+  .stripe{background:#6B5334;
+    background-image:repeating-linear-gradient(90deg,rgba(240,232,218,.3) 0 4px,transparent 4px 15px)}
+  .black{background:#141414}
+  .denim{background:#3E5166;
+    background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.1) 0 3px,transparent 3px 9px)}
+  .rust{background:#7A3B2E}
+  .pocket{background:#8C9BA8;color:#1A1A1A}
+  .pocket .t,.pocket .d{opacity:.78}
+
+  /* the hero patch carries the name — cover scale */
+  .hero{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end}
+  .hero h1{font-size:76px;line-height:.9;font-weight:800;letter-spacing:-.035em;
+           text-transform:uppercase;position:relative;z-index:2}
+  .hero .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
+              margin-top:14px;font-weight:600;position:relative;z-index:2}
+  .hero .claim{font-size:14.5px;margin-top:12px;line-height:1.45;position:relative;z-index:2;max-width:330px}
+  .hero .acts{display:flex;gap:11px;margin-top:20px;position:relative;z-index:2}
+  .hero a{padding:13px 22px;font-size:12px;font-weight:700;letter-spacing:.18em;
+          text-transform:uppercase;text-decoration:none}
+  .hero .primary{background:#C8352B;color:#fff}
+  .hero .ghost{border:2px solid #F0E8DA;color:#F0E8DA}
+
+  /* the bright new stitch threading the whole career */
+  .stitch{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:5}
+  .stitch svg{width:100%;height:100%}
+</style>
+</head>
+<body>
+  <div class="rail">
+    <div class="mast">Francesc Pérez · Pieced Career</div>
+    <div class="iss">Barcelona · 1 Thread · 12 Years</div>
+  </div>
+  <div class="quilt">
+    <div class="patch chambray hero">
+      <h1>Francesc<br>Pérez</h1>
+      <div class="role">Senior Android &amp; Backend Engineer</div>
+      <div class="claim">One thread through twelve years: I build the app and the backend behind it.</div>
+      <div class="acts">
+        <a class="primary" href="#">Email</a>
+        <a class="ghost" href="#">Download CV</a>
+      </div>
+    </div>
+    <div class="patch black">
+      <h2>Fanatics</h2>
+      <div class="d">2026 — Now</div>
+      <div class="t">Kotlin · Spring Boot · Payload CMS</div>
+    </div>
+    <div class="patch stripe">
+      <h2>Eventbase</h2>
+      <div class="d">2019 — 2025</div>
+      <div class="t">Offline-first apps · Compose · KMP</div>
+    </div>
+    <div class="patch denim">
+      <h2>Napptilus</h2>
+      <div class="d">2017 — 2019</div>
+      <div class="t">Oysho · Privalia · 500K+ downloads</div>
+    </div>
+    <div class="patch pocket">
+      <h2>Fickl</h2>
+      <div class="d">2021 — 2022</div>
+      <div class="t">React · Firebase</div>
+    </div>
+    <div class="patch rust">
+      <h2>Everis</h2>
+      <div class="d">2014 — 2017</div>
+      <div class="t">Banking · Murex</div>
+    </div>
+    <div class="patch black" style="grid-column:span 2">
+      <h2>Shipped</h2>
+      <div class="t">Fanatics · SXSW GO · CES · VMware · Salesforce · Oysho · Privalia</div>
+    </div>
+    <div class="patch stripe">
+      <h2>MSc AI</h2>
+      <div class="d">CSM · UPC</div>
+    </div>
+    <div class="stitch">
+      <svg viewBox="0 0 1352 716" preserveAspectRatio="none">
+        <path d="M120 600 L120 300 L560 300 L560 120 L980 120 L980 420 L1280 420 L1280 650"
+              fill="none" stroke="#E8463A" stroke-width="5" stroke-dasharray="15 11" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

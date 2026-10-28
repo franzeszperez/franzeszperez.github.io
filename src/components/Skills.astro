@@ -1,18 +1,90 @@
 ---
+/**
+ * The parts bags. A booklet groups its pieces by bag, numbered, and lists
+ * what each contains — which is exactly what a skill group is.
+ */
 import { skills } from '../data/resume';
 ---
 
-<section aria-labelledby="skills-heading">
-	<h2 id="skills-heading">Skills</h2>
+<section class="section" id="skills" aria-labelledby="skills-label">
+	<h2 id="skills-label">Parts bags</h2>
+	<p class="section__intro">Everything in the box, sorted by what it builds.</p>
 
-	<dl>
+	<div class="bags">
 		{
-			skills.map((group) => (
-				<div>
-					<dt>{group.category}</dt>
-					<dd>{group.items.join(' · ')}</dd>
-				</div>
+			skills.map((group, i) => (
+				<section class="bag" aria-labelledby={`bag-${i}`}>
+					<header class="bag__head">
+						<h3 class="bag__name" id={`bag-${i}`}>{group.category}</h3>
+						<span class="bag__count qty">{group.items.length} pcs</span>
+					</header>
+					<ul class="bag__items">
+						{group.items.map((item) => (
+							<li class="chip">{item}</li>
+						))}
+					</ul>
+				</section>
 			))
 		}
-	</dl>
+	</div>
 </section>
+
+<style>
+	/* Bags sit at their own height rather than stretching to the tallest in
+	   the row: a half-empty sealed bag is slack, not rhythm. */
+	.bags {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+		align-items: start;
+		gap: 1rem;
+		margin-top: clamp(1.4rem, 3vw, calc(var(--stud) * 1.1));
+	}
+
+	/* A sealed bag: the stock is translucent, the seal is drawn across
+	   the top. Not a card — it has no shadow, no radius, and its header
+	   is a crimp. */
+	.bag {
+		position: relative;
+		padding: 1.15rem 1.2rem 1.25rem;
+		background: rgba(255, 255, 255, 0.3);
+		border: var(--keyline) solid var(--ink);
+	}
+
+	.bag__head {
+		display: flex;
+		align-items: baseline;
+		gap: 0.7rem;
+		padding-bottom: 0.7rem;
+		border-bottom: 3px solid var(--ink);
+	}
+
+	.bag__name {
+		flex: 1;
+		font-size: 1.02rem;
+		letter-spacing: 0.02em;
+	}
+
+	.bag__count {
+		font-size: 0.74rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-soft);
+	}
+
+	.bag__items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.44rem;
+		margin-top: 0.95rem;
+	}
+
+	.bag .chip {
+		padding: 0.32rem 0.6rem;
+		border: var(--keyline-thin) solid var(--ink);
+		background: var(--paper);
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.03em;
+	}
+</style>

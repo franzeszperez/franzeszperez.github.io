@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{background:#F4F1EA;font-family:'Helvetica Neue',Arial,sans-serif;color:#121212;position:relative}
+  body::before{content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.016) 0 1px,transparent 1px 4px);pointer-events:none}
+  .panel{position:absolute;inset:0;padding:40px 54px;display:flex;flex-direction:column}
+
+  .rail{display:flex;justify-content:space-between;align-items:baseline;
+        border-bottom:2px solid #121212;padding-bottom:11px}
+  .mast{font-size:14px;letter-spacing:.4em;text-transform:uppercase;font-weight:700}
+  .iss{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+
+  .diagram{flex:1;position:relative;margin-top:16px}
+
+  /* two lines running the page, 45/90 strokes only */
+  .line{position:absolute;height:13px;border-radius:7px}
+  .l-android{background:#0A5C9E}
+  .l-backend{background:#D8442F}
+
+  .a1{left:0;top:268px;width:500px}
+  .a2{left:470px;top:268px;width:160px;transform:rotate(45deg);transform-origin:left center}
+  .b1{left:0;top:560px;width:470px}
+  .b2{left:440px;top:560px;width:180px;transform:rotate(-45deg);transform-origin:left center}
+  .trunk{left:600px;top:412px;width:300px;background:#121212}
+  .out{left:880px;top:412px;width:420px;background:#121212}
+
+  /* station markers */
+  .st{position:absolute;width:19px;height:19px;border:5px solid #121212;background:#F4F1EA;border-radius:50%}
+  .st.sq{border-radius:3px}
+  .lbl{position:absolute;font-size:12.5px;line-height:1.3;font-weight:600;letter-spacing:.02em}
+  .lbl small{display:block;font-weight:400;opacity:.62;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-top:3px;font-variant-numeric:tabular-nums}
+
+  /* the interchange — him, at cover scale */
+  .hub{position:absolute;left:600px;top:338px;display:flex;align-items:center;gap:22px}
+  .hub .ring{width:150px;height:150px;border:15px solid #121212;border-radius:50%;background:#F4F1EA;
+             display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .hub .ring b{font-size:54px;font-weight:800;letter-spacing:-.03em}
+  .hub .who h1{font-size:62px;line-height:.92;font-weight:800;letter-spacing:-.035em;text-transform:uppercase}
+  .hub .who .role{font-size:14px;letter-spacing:.26em;text-transform:uppercase;margin-top:11px;font-weight:600}
+  .hub .who .claim{font-size:16px;margin-top:9px;max-width:420px;line-height:1.45}
+
+  /* legend */
+  .legend{position:absolute;left:0;bottom:4px;display:flex;gap:30px;font-size:12px;
+          letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+  .legend i{display:inline-block;width:30px;height:9px;border-radius:5px;margin-right:9px;vertical-align:middle}
+
+  /* terminus = the actions */
+  .term{position:absolute;right:0;top:372px;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+  .term a{padding:15px 28px;font-size:13.5px;font-weight:700;letter-spacing:.2em;
+          text-transform:uppercase;text-decoration:none}
+  .term .primary{background:#D8442F;color:#fff}
+  .term .ghost{border:3px solid #121212;color:#121212}
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="rail">
+    <div class="mast">Francesc Pérez · Career Network</div>
+    <div class="iss">Barcelona · 12 Years · 8 Stations</div>
+  </div>
+
+  <div class="diagram">
+    <div class="line l-android a1"></div>
+    <div class="line l-android a2"></div>
+    <div class="line l-backend b1"></div>
+    <div class="line l-backend b2"></div>
+    <div class="line trunk"></div>
+    <div class="line out"></div>
+
+    <div class="st" style="left:30px;top:265px"></div>
+    <div class="lbl" style="left:8px;top:210px">Napptilus<small>2017</small></div>
+    <div class="st" style="left:250px;top:265px"></div>
+    <div class="lbl" style="left:224px;top:210px">Eventbase<small>2019</small></div>
+    <div class="st sq" style="left:30px;top:557px"></div>
+    <div class="lbl" style="left:8px;top:592px">Everis<small>2014</small></div>
+    <div class="st sq" style="left:250px;top:557px"></div>
+    <div class="lbl" style="left:232px;top:592px">Fickl<small>2021</small></div>
+
+    <div class="hub">
+      <div class="ring"><b>FP</b></div>
+      <div class="who">
+        <h1>Francesc<br>Pérez</h1>
+        <div class="role">Senior Android &amp; Backend Engineer</div>
+        <div class="claim">Two lines, one interchange: I build the app and the backend that feeds it.</div>
+      </div>
+    </div>
+
+    <div class="st" style="left:1290px;top:409px"></div>
+    <div class="lbl" style="left:1196px;top:352px">Fanatics<small>2026 · Now</small></div>
+
+    <div class="term">
+      <a class="primary" href="#">Email Francesc</a>
+      <a class="ghost" href="#">Download CV</a>
+    </div>
+
+    <div class="legend">
+      <span><i class="l-android"></i>Android</span>
+      <span><i class="l-backend"></i>Backend</span>
+      <span><i style="background:#121212"></i>Both</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

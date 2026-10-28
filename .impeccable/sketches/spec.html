@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    background:#F4F4F1;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    color:#1A1A1A;
+    padding:30px;
+  }
+  .sheet{
+    height:840px;border:1.5px solid #1A1A1A;position:relative;
+    display:flex;flex-direction:column;
+    background:
+      linear-gradient(0deg,rgba(27,77,143,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(27,77,143,.045) 1px,transparent 1px),
+      #FBFBF9;
+    background-size:24px 24px;
+  }
+  /* drawing border ticks */
+  .sheet::after{
+    content:'';position:absolute;inset:7px;border:.5px solid rgba(26,26,26,.42);
+    pointer-events:none;
+  }
+
+  .hdr{display:flex;border-bottom:1.5px solid #1A1A1A;flex:0 0 auto}
+  .hdr .id{
+    padding:20px 26px;border-right:1.5px solid #1A1A1A;flex:1;
+  }
+  .hdr .part{font-family:ui-monospace,'SF Mono',Menlo,monospace;
+             font-size:11.5px;letter-spacing:.2em;color:#1B4D8F;font-weight:700}
+  .hdr h1{font-size:50px;line-height:.96;font-weight:700;letter-spacing:-.03em;
+          margin-top:9px;text-transform:uppercase}
+  .hdr .fn{font-size:14.5px;font-weight:600;margin-top:11px;letter-spacing:.03em}
+  .hdr .rev{width:286px;padding:20px 22px;font-family:ui-monospace,'SF Mono',Menlo,monospace}
+  .hdr .rev .lab{font-size:10.5px;letter-spacing:.2em;font-weight:700;color:#1B4D8F;
+                 padding-bottom:8px;border-bottom:1px solid rgba(26,26,26,.3)}
+  .hdr .rev div.r{display:flex;justify-content:space-between;font-size:11.5px;padding:4.5px 0}
+  .hdr .rev div.r b{font-weight:700}
+
+  .mid{flex:1;display:flex}
+
+  /* dimensioned elevation of the dual claim */
+  .elev{flex:1;border-right:1.5px solid #1A1A1A;padding:28px 30px;position:relative}
+  .elev .cap{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10.5px;
+             letter-spacing:.2em;font-weight:700;color:#1B4D8F}
+  .stack{margin-top:22px;display:flex;flex-direction:column;gap:11px;width:470px}
+  .bar{border:1.5px solid #1A1A1A;background:#fff;padding:13px 17px;
+       display:flex;justify-content:space-between;align-items:baseline}
+  .bar .nm{font-size:16.5px;font-weight:700;letter-spacing:.01em}
+  .bar .sub{font-size:11.5px;color:#4A4A4A;margin-top:4px;letter-spacing:.04em}
+  .bar .qty{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12.5px;
+            font-weight:700;color:#C8311F;letter-spacing:.06em}
+  .bar.hot{background:#1A1A1A;color:#F4F4F1}
+  .bar.hot .sub{color:#B9B9B4}
+
+  /* dimension line + arrows spanning the whole stack */
+  .dim{position:absolute;left:522px;top:72px;height:294px;width:92px}
+  .dim svg{width:100%;height:100%}
+  .dim .txt{position:absolute;left:36px;top:124px;
+            font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11.5px;
+            font-weight:700;color:#C8311F;letter-spacing:.14em;
+            writing-mode:vertical-rl;background:#FBFBF9;padding:5px 0}
+
+  /* parts list */
+  .parts{width:390px;padding:28px 26px;display:flex;flex-direction:column}
+  .parts .cap{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10.5px;
+              letter-spacing:.2em;font-weight:700;color:#1B4D8F;
+              padding-bottom:9px;border-bottom:1.5px solid #1A1A1A}
+  .parts table{width:100%;border-collapse:collapse;margin-top:3px;
+               font-family:ui-monospace,'SF Mono',Menlo,monospace}
+  .parts td{font-size:12px;padding:6.5px 0;border-bottom:1px dotted rgba(26,26,26,.34)}
+  .parts td.n{width:34px;color:#6A6A6A}
+  .parts td.v{text-align:right;font-weight:700}
+
+  .acts{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+  .acts a{display:block;text-align:center;padding:14px;text-decoration:none;
+          font-family:ui-monospace,'SF Mono',Menlo,monospace;
+          font-size:12px;font-weight:700;letter-spacing:.18em;border:1.5px solid #1A1A1A}
+  .acts .pri{background:#1B4D8F;color:#fff;border-color:#1B4D8F}
+  .acts .sec{background:#fff;color:#1A1A1A}
+
+  /* title block, bottom right, like every drawing */
+  .tb{flex:0 0 auto;border-top:1.5px solid #1A1A1A;display:flex;
+      font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px}
+  .tb div{padding:12px 20px;border-right:1px solid rgba(26,26,26,.34);letter-spacing:.1em}
+  .tb div:last-child{border-right:none;margin-left:auto;font-weight:700}
+  .tb b{font-weight:700}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="hdr">
+    <div class="id">
+      <div class="part">PART NO. FP-2026 · SENIOR ENGINEER · REV E</div>
+      <h1>Francesc<br>Pérez</h1>
+      <div class="fn">Senior Android &amp; Backend Engineer · Barcelona, ES</div>
+    </div>
+    <div class="rev">
+      <div class="lab">REVISION HISTORY</div>
+      <div class="r"><span>E · Fanatics</span><b>2026</b></div>
+      <div class="r"><span>D · Fickl</span><b>2021</b></div>
+      <div class="r"><span>C · Eventbase</span><b>2019</b></div>
+      <div class="r"><span>B · Napptilus</span><b>2017</b></div>
+      <div class="r"><span>A · Everis</span><b>2014</b></div>
+    </div>
+  </div>
+
+  <div class="mid">
+    <div class="elev">
+      <div class="cap">FIG. 1 — ELEVATION · BOTH HALVES, ONE ENGINEER</div>
+      <div class="stack">
+        <div class="bar hot">
+          <div><div class="nm">Android Client</div>
+            <div class="sub">Kotlin · Compose · KMP · offline-first</div></div>
+          <div class="qty">8 YRS</div>
+        </div>
+        <div class="bar hot">
+          <div><div class="nm">Kotlin / Java Backend</div>
+            <div class="sub">Spring Boot · GraphQL · BFF</div></div>
+          <div class="qty">6 YRS</div>
+        </div>
+        <div class="bar">
+          <div><div class="nm">Data &amp; Delivery</div>
+            <div class="sub">PostgreSQL · Redis · Jenkins</div></div>
+          <div class="qty">·</div>
+        </div>
+        <div class="bar">
+          <div><div class="nm">Web</div>
+            <div class="sub">Next.js · React · Firebase</div></div>
+          <div class="qty">·</div>
+        </div>
+      </div>
+      <div class="dim">
+        <svg viewBox="0 0 92 294">
+          <path d="M20 4 H52" stroke="#C8311F" stroke-width="1.2"/>
+          <path d="M20 290 H52" stroke="#C8311F" stroke-width="1.2"/>
+          <path d="M36 4 V290" stroke="#C8311F" stroke-width="1.2"/>
+          <path d="M31 12 L36 2 L41 12 Z" fill="#C8311F"/>
+          <path d="M31 282 L36 292 L41 282 Z" fill="#C8311F"/>
+        </svg>
+        <div class="txt">12 YEARS</div>
+      </div>
+    </div>
+
+    <div class="parts">
+      <div class="cap">PARTS LIST · SHIPPED</div>
+      <table>
+        <tr><td class="n">01</td><td>SXSW GO</td><td class="v">2019–25</td></tr>
+        <tr><td class="n">02</td><td>CES Mobile</td><td class="v">2019–25</td></tr>
+        <tr><td class="n">03</td><td>Cisco Live</td><td class="v">2019–25</td></tr>
+        <tr><td class="n">04</td><td>Deloitte Events</td><td class="v">2019–25</td></tr>
+        <tr><td class="n">05</td><td>Oysho</td><td class="v">500K+</td></tr>
+        <tr><td class="n">06</td><td>Privalia</td><td class="v">2017–19</td></tr>
+        <tr><td class="n">07</td><td>DOY App</td><td class="v">2022</td></tr>
+        <tr><td class="n">08</td><td>Mentored engineers</td><td class="v">5</td></tr>
+      </table>
+      <div class="acts">
+        <a class="pri" href="#">EMAIL FRANCESC</a>
+        <a class="sec" href="#">DOWNLOAD CV (PDF)</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tb">
+    <div>SCALE <b>1:1</b></div>
+    <div>SHEET <b>1 OF 1</b></div>
+    <div>UNITS <b>YEARS</b></div>
+    <div>TOLERANCE <b>±0</b></div>
+    <div>DRAWN BY <b>F. PÉREZ</b></div>
+  </div>
+</div>
+</body>
+</html>

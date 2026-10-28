@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{background:#fff;font-family:-apple-system,'Segoe UI',Roboto,Inter,sans-serif;color:#111827}
+  .nav{height:68px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;
+       justify-content:space-between;padding:0 120px}
+  .nav .logo{font-weight:700;font-size:17px}
+  .nav ul{display:flex;gap:30px;list-style:none;font-size:14.5px;color:#4B5563}
+  .nav .tog{width:34px;height:34px;border:1px solid #E5E7EB;border-radius:8px}
+
+  .hero{padding:104px 120px 70px;text-align:center}
+  .hero h1{font-size:57px;font-weight:800;letter-spacing:-.025em;line-height:1.08}
+  .hero .role{font-size:20px;color:#4B5563;margin-top:18px}
+  .hero .sum{font-size:16.5px;color:#4B5563;margin-top:20px;max-width:620px;
+             margin-left:auto;margin-right:auto;line-height:1.6}
+  .hero .btns{display:flex;gap:14px;justify-content:center;margin-top:34px}
+  .hero a{padding:13px 26px;border-radius:8px;font-size:14.5px;font-weight:600;text-decoration:none}
+  .hero .p{background:#2563EB;color:#fff}
+  .hero .s{border:1px solid #D1D5DB;color:#111827}
+
+  .skills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+          padding:0 240px 62px}
+  .skills span{padding:8px 16px;background:#F3F4F6;border-radius:999px;font-size:13.5px;color:#374151}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:0 120px}
+  .card{border:1px solid #E5E7EB;border-radius:12px;padding:24px;height:176px}
+  .card h2{font-size:17.5px;font-weight:700}
+  .card .d{font-size:13px;color:#4B5563;margin-top:7px}
+  .card p{font-size:14px;color:#4B5563;margin-top:13px;line-height:1.55}
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="logo">Francesc Pérez</div>
+    <ul><li>About</li><li>Experience</li><li>Skills</li><li>Projects</li><li>Contact</li></ul>
+    <div class="tog"></div>
+  </div>
+  <div class="hero">
+    <h1>Hi, I'm Francesc 👋</h1>
+    <div class="role">Senior Android &amp; Backend Engineer</div>
+    <div class="sum">Product-driven engineer with 8+ years building offline-first Android apps
+      and scalable backend systems in Kotlin, Java, and Spring Boot.</div>
+    <div class="btns">
+      <a class="p" href="#">Get in touch</a>
+      <a class="s" href="#">Download CV</a>
+    </div>
+  </div>
+  <div class="skills">
+    <span>Kotlin</span><span>Jetpack Compose</span><span>Spring Boot</span><span>Android SDK</span>
+    <span>GraphQL</span><span>PostgreSQL</span><span>Redis</span><span>Next.js</span><span>KMP</span>
+  </div>
+  <div class="cards">
+    <div class="card"><h2>Fanatics</h2><div class="d">2026 — Present</div>
+      <p>Senior Android &amp; Backend Engineer, building BFF widgets and Kotlin services.</p></div>
+    <div class="card"><h2>Eventbase</h2><div class="d">2019 — 2025</div>
+      <p>Offline-first event apps for Cisco, Deloitte, CES, and SXSW.</p></div>
+    <div class="card"><h2>Napptilus</h2><div class="d">2017 — 2019</div>
+      <p>E-commerce Android apps including Oysho and Privalia.</p></div>
+  </div>
+</body>
+</html>

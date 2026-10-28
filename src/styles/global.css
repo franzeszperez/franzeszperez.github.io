@@ -1,29 +1,54 @@
 /*
- * Baseline styles only — deliberately plain.
- * The visual design comes later; this just makes the skeleton readable.
+ * THE BUILD INSTRUCTIONS
+ *
+ * A career as an assembly sequence. The page is an instruction booklet:
+ * sky-blue stock, a stud grid that rules every alignment, keyline ink that is
+ * drawn rather than styled, and bricks as the only container.
+ *
+ * Direction contract: .impeccable/surfaces/src-pages-index-astro.md
+ * Content: src/data/resume.ts — never hardcode copy in markup.
+ *
+ * Colour discipline, and it is strict:
+ *   red    is the CURRENT role, and nothing else
+ *   yellow is the PRIMARY action, and nothing else
+ *   white  at display scale only (3.83:1 on the ground — too low for body)
  */
 
+@import '@fontsource-variable/archivo/wdth.css';
+
 :root {
-	--measure: 68ch;
-	--space: 1rem;
+	/* ---- the world ---- */
+	--ground: #1e8ac4; /* instruction-page sky blue */
+	--ink: #101010; /* keyline black, 4.97:1 on ground */
+	--new: #d01217; /* the arriving piece */
+	--action: #f2c230; /* the primary action */
+	--paper: #ffffff; /* call-out box stock */
+	--ghost: rgba(255, 255, 255, 0.26); /* an already-seated brick */
+	--ghost-line: rgba(16, 16, 16, 0.5);
 
-	--color-bg: #ffffff;
-	--color-fg: #1a1a1a;
-	--color-muted: #5c5c5c;
-	--color-accent: #0b5cff;
-	--color-rule: #e4e4e7;
+	/* Secondary text is tinted from the ground's own hue, never gray.
+	   Measured as it actually composites, not against the raw ground:
+	   --ink-soft is for text on translucent stock (5.35:1 on the parts-bag
+	   #62add6, 13.3:1 on paper) and is not safe on the bare ground;
+	   --paper-soft is for text on paper only (7.31:1). */
+	--ink-soft: #0f3346;
+	--paper-soft: #3d5a6b;
 
-	--font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-}
+	/* ---- the module ---- */
+	/* Every measure on this page is a multiple of one stud. */
+	--stud: 40px;
+	--keyline: 4px;
+	--keyline-thin: 2px;
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-bg: #121214;
-		--color-fg: #ededf0;
-		--color-muted: #a1a1aa;
-		--color-accent: #7ea6ff;
-		--color-rule: #2a2a30;
-	}
+	--display: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+	/* Calibrated, not nominal. Archivo's '0' measures 1.29x its own average
+	   character, so a ch-based measure overshoots by ~29%: 68ch rendered at
+	   88 characters. 57ch lands near the 73-character target. */
+	--measure: 57ch;
+
+	/* The booklet is read in hand, in daylight. It is a light page. */
+	color-scheme: light;
+	accent-color: var(--new);
 }
 
 *,
@@ -32,43 +57,459 @@
 	box-sizing: border-box;
 }
 
-body {
-	margin: 0;
-	padding: calc(var(--space) * 2) var(--space);
-	background: var(--color-bg);
-	color: var(--color-fg);
-	font-family: var(--font-sans);
-	font-size: 1rem;
-	line-height: 1.6;
-	-webkit-font-smoothing: antialiased;
+html {
+	scroll-behavior: smooth;
+	/* Scroll-padding so anchor targets clear the running head. */
+	scroll-padding-top: calc(var(--stud) * 2);
 }
 
-main {
-	max-width: var(--measure);
-	margin-inline: auto;
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
+
+body {
+	margin: 0;
+	background-color: var(--ground);
+	/* The stud grid. It is the page's ground, not a texture laid over one. */
+	background-image: radial-gradient(
+		circle at 50% 50%,
+		rgba(255, 255, 255, 0.17) 3.5px,
+		transparent 4px
+	);
+	background-size: var(--stud) var(--stud);
+	color: var(--ink);
+	font-family: var(--display);
+	font-variation-settings: 'wdth' 100;
+	font-size: 1rem;
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------
+   Browser surfaces. The parts we did not draw still carry the world.
+   --------------------------------------------------------------- */
+
+::selection {
+	background: var(--action);
+	color: var(--ink);
+}
+
+:focus-visible {
+	outline: var(--keyline) solid var(--ink);
+	outline-offset: 3px;
+}
+
+/* The booklet's own scrollbar: ink on stock. */
+@supports selector(::-webkit-scrollbar) {
+	::-webkit-scrollbar {
+		width: 14px;
+	}
+	::-webkit-scrollbar-track {
+		background: rgba(16, 16, 16, 0.12);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--ink);
+		border: 3px solid var(--ground);
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--new);
+	}
+}
+
+* {
+	scrollbar-color: var(--ink) rgba(16, 16, 16, 0.12);
+}
+
+/* ---------------------------------------------------------------
+   Type. Display is heavy and condensed; body runs at normal width.
+   --------------------------------------------------------------- */
 
 h1,
 h2,
 h3 {
-	line-height: 1.2;
+	margin: 0;
+	font-variation-settings: 'wdth' 82;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	line-height: 0.92;
+	text-transform: uppercase;
 	text-wrap: balance;
 }
 
+h1 {
+	/* Display ceiling is 6rem per the craft floor; the numeral beside it
+	   carries the scale instead. */
+	font-size: clamp(2.6rem, 6.4vw, 5.6rem);
+}
+
+h2 {
+	font-size: clamp(1.8rem, 3.4vw, 2.9rem);
+}
+
+h3 {
+	font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+	letter-spacing: -0.015em;
+}
+
+p {
+	margin: 0;
+	max-width: var(--measure);
+	/* Pulls a word down beside a one-word last line rather than leaving a
+	   hole under the block. Ignored safely where unsupported. */
+	text-wrap: pretty;
+}
+
 a {
-	color: var(--color-accent);
+	color: inherit;
 }
 
-a:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 2px;
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
-ul {
-	padding-left: 1.2em;
+/* Tabular data gets tabular numerals — years must align down a column. */
+time,
+.qty,
+.step-no {
+	font-variant-numeric: tabular-nums;
 }
 
-/* Visible only to screen readers — used for section landmarks and skip links. */
+/* ---------------------------------------------------------------
+   The running head. Chrome, not a label above a heading.
+   --------------------------------------------------------------- */
+
+.rail {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem calc(var(--stud) * 0.8);
+	align-items: baseline;
+	justify-content: space-between;
+	padding: 0.85rem clamp(1rem, 3.4vw, calc(var(--stud) * 1.4));
+	background: var(--ground);
+	border-bottom: var(--keyline) solid var(--ink);
+}
+
+.rail__mark {
+	font-size: 0.82rem;
+	font-weight: 800;
+	letter-spacing: 0.3em;
+	text-transform: uppercase;
+}
+
+.rail__nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem 1.4rem;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+.rail__nav a {
+	padding-bottom: 2px;
+	text-decoration: none;
+	border-bottom: var(--keyline-thin) solid transparent;
+	transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rail__nav a:hover,
+.rail__nav a:focus-visible {
+	border-bottom-color: var(--ink);
+}
+
+/* Between desktop and phone the head still carries everything, but the
+   tracking tightens so it holds one line instead of wrapping. */
+@media (max-width: 1180px) {
+	.rail__mark,
+	.rail__nav {
+		letter-spacing: 0.14em;
+	}
+
+	.rail__nav {
+		gap: 0.4rem 1rem;
+	}
+}
+
+/* On a phone the running head keeps only the mark. Three wrapped lines of
+   sticky chrome would cost a third of the viewport, and the sections are a
+   short scroll away anyway. */
+@media (max-width: 860px) {
+	.rail {
+		flex-wrap: nowrap;
+	}
+
+	.rail__nav {
+		display: none;
+	}
+}
+
+/* ---------------------------------------------------------------
+   The brick. The page's only container.
+   --------------------------------------------------------------- */
+
+.brick {
+	position: relative;
+	display: block;
+	padding: 0.85rem 1.1rem;
+	border: var(--keyline) solid var(--ink);
+	border-radius: 4px;
+	background: var(--ghost);
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* The studs, drawn above the top edge. Structural: they are how a brick
+   announces that another one seats onto it. */
+.brick::before {
+	content: '';
+	position: absolute;
+	top: calc(var(--keyline) * -1 - 7px);
+	left: 14px;
+	right: 14px;
+	height: 11px;
+	border: var(--keyline) solid var(--ink);
+	border-bottom: none;
+	border-radius: 5px 5px 0 0;
+	background: inherit;
+}
+
+/* The arriving piece. The offset shadow is the booklet's own convention for
+   a part held above the assembly plane — earned by this world, used here only. */
+.brick--new {
+	background: var(--new);
+	color: var(--paper);
+	box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.26);
+}
+
+.brick--seated {
+	border-color: var(--ghost-line);
+}
+
+.brick--seated::before {
+	border-color: var(--ghost-line);
+}
+
+/* ---------------------------------------------------------------
+   The call-out box. 1:1 detail panel, white stock, hard border.
+   --------------------------------------------------------------- */
+
+.callout {
+	padding: clamp(1.1rem, 1.8vw, 1.5rem);
+	background: var(--paper);
+	border: var(--keyline) solid var(--ink);
+}
+
+.callout__label {
+	padding-bottom: 0.7rem;
+	border-bottom: 3px solid var(--ink);
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+}
+
+/* Dotted leaders: the parts-list convention, and it is also how a reader's
+   eye gets from a part name to its quantity. */
+.leader {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	padding: 0.42rem 0;
+	border-bottom: 1px dotted rgba(16, 16, 16, 0.45);
+	font-size: 0.9rem;
+}
+
+.leader:last-child {
+	border-bottom: none;
+}
+
+.leader__name {
+	font-weight: 600;
+}
+
+.leader__fill {
+	flex: 1;
+}
+
+/* Ink, not red: red belongs to the current role alone, and six red
+   quantities in the first viewport compete with the one brick that owns it.
+   Weight 800 and the dotted leader already carry these. */
+.leader__qty {
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	color: var(--ink);
+}
+
+/* ---------------------------------------------------------------
+   Actions. Inventory items in the call-out, not buttons pasted on.
+   --------------------------------------------------------------- */
+
+.actions {
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
+	margin-top: 1.1rem;
+}
+
+.action {
+	padding: 0.95rem 1.2rem;
+	border: var(--keyline) solid var(--ink);
+	background: var(--paper);
+	color: var(--ink);
+	font-family: inherit;
+	font-size: 0.82rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition:
+		transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.action--primary {
+	background: var(--action);
+	box-shadow: 5px 5px 0 var(--ink);
+}
+
+/* Pressing a part home: it travels toward its seat and the gap closes. */
+.action--primary:hover,
+.action--primary:focus-visible {
+	transform: translate(2px, 2px);
+	box-shadow: 3px 3px 0 var(--ink);
+}
+
+.action--primary:active {
+	transform: translate(5px, 5px);
+	box-shadow: 0 0 0 var(--ink);
+}
+
+.action--secondary:hover,
+.action--secondary:focus-visible {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+/* ---------------------------------------------------------------
+   Step structure. The sequence carries real information here: it is the
+   assembly order of a career, read newest-first.
+   --------------------------------------------------------------- */
+
+.sheet {
+	max-width: 1360px;
+	margin-inline: auto;
+	padding: clamp(1.4rem, 3.4vw, calc(var(--stud) * 1.4));
+}
+
+.step {
+	padding-block: clamp(2rem, 5vw, calc(var(--stud) * 2));
+	border-top: var(--keyline) solid var(--ink);
+}
+
+.step:first-child {
+	border-top: none;
+}
+
+.step__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: clamp(1rem, 2.4vw, 1.9rem);
+}
+
+/* The oversized numeral: white face, heavy ink stroke, the booklet's
+   loudest single mark. */
+.step-no {
+	font-size: clamp(4.4rem, 11vw, 10.5rem);
+	font-variation-settings: 'wdth' 76;
+	font-weight: 900;
+	line-height: 0.76;
+	letter-spacing: -0.05em;
+	color: var(--paper);
+	-webkit-text-stroke: 5px var(--ink);
+	paint-order: stroke fill;
+}
+
+.step__title {
+	flex: 1 1 18ch;
+}
+
+.step__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem 1rem;
+	margin-top: 0.7rem;
+	font-size: 0.8rem;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+.step__scope {
+	margin-top: 0.9rem;
+	font-size: clamp(1rem, 1.25vw, 1.08rem);
+	font-weight: 500;
+}
+
+/* ---------------------------------------------------------------
+   Section heads. No eyebrow above them — the heading carries itself.
+   --------------------------------------------------------------- */
+
+.section {
+	padding-block: clamp(2rem, 5vw, calc(var(--stud) * 2));
+	border-top: var(--keyline) solid var(--ink);
+}
+
+.section__intro {
+	max-width: var(--measure);
+	margin-top: 0.8rem;
+	font-weight: 500;
+}
+
+/* ---------------------------------------------------------------
+   Signature motion: a brick travels to its seat, nub-first, and the
+   keyline fills as it lands. One authored moment, driven by scroll
+   position with no JavaScript. Default state is already-seated, so a
+   browser without scroll-driven animations shows the finished assembly.
+   --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		.seats {
+			animation: seat linear both;
+			animation-timeline: view();
+			animation-range: entry 8% entry 62%;
+		}
+
+		@keyframes seat {
+			from {
+				transform: translate(calc(var(--stud) * -0.7), calc(var(--stud) * -0.55));
+				opacity: 0.18;
+			}
+			to {
+				transform: translate(0, 0);
+				opacity: 1;
+			}
+		}
+	}
+}
+
+/* ---------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------- */
+
 .visually-hidden {
 	position: absolute;
 	width: 1px;
@@ -80,10 +521,85 @@ ul {
 	white-space: nowrap;
 }
 
+/* The skip link is chrome too: it arrives as a part. */
+.skip {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	z-index: 100;
+	translate: -50% -110%;
+	padding: 0.8rem 1.4rem;
+	/* Paper stock, not yellow: the action colour is the primary action's
+	   alone, and a utility affordance should not spend it. */
+	background: var(--paper);
+	border: var(--keyline) solid var(--ink);
+	font-size: 0.8rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: translate 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skip:focus-visible {
+	translate: -50% 0;
+}
+
+/* ---------------------------------------------------------------
+   Print. The booklet becomes a plain spec sheet: ink on white stock,
+   no ground, no studs, no shadows.
+   --------------------------------------------------------------- */
+
 @media print {
+	:root {
+		--ground: #ffffff;
+		--ghost: transparent;
+		--new: #000000;
+		--action: #ffffff;
+	}
+
+	/* Paper never scrolls, so a scroll-driven animation would print frozen
+	   at its start frame — the first step would come out at 18% opacity.
+	   Every part is already seated on the page. */
+	.seats {
+		animation: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+
 	body {
-		padding: 0;
-		color: #000;
 		background: #fff;
+		color: #000;
+		font-size: 10.5pt;
+	}
+
+	.rail {
+		position: static;
+	}
+
+	.rail__nav,
+	.actions {
+		display: none;
+	}
+
+	/* On paper the current role is a white brick with a heavy keyline, not a
+	   filled slab: --new flattens to black in print, so a black fill would
+	   bury its own label. The weight of the rule carries the emphasis. */
+	.brick--new {
+		box-shadow: none;
+		background: #fff;
+		color: #000;
+		border-width: 3px;
+	}
+
+	.step-no {
+		-webkit-text-stroke: 2px #000;
+		color: #fff;
+		font-size: 42pt;
+	}
+
+	.step,
+	.section {
+		break-inside: avoid;
 	}
 }

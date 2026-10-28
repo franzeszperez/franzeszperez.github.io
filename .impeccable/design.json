@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T00:00:00.000Z",
+  "title": "Design System: Francesc Pérez — Build Instructions",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "primary",
+        "displayName": "Instruction Sky",
+        "canonical": "#1e8ac4",
+        "tonalRamp": ["#06202e", "#0a3448", "#0f4a67", "#146286", "#1878a6", "#1e8ac4", "#62add6", "#b9d6e8"]
+      },
+      "new": {
+        "role": "secondary",
+        "displayName": "Arriving Red",
+        "canonical": "#d01217",
+        "tonalRamp": ["#2b0304", "#470608", "#64080b", "#840b0e", "#a60e12", "#d01217", "#e8676a", "#f6c2c3"]
+      },
+      "action": {
+        "role": "tertiary",
+        "displayName": "Action Yellow",
+        "canonical": "#f2c230",
+        "tonalRamp": ["#2e2305", "#4a390a", "#684f0f", "#876715", "#a8801b", "#cb9b22", "#f2c230", "#fae5a6"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Keyline Black",
+        "canonical": "#101010",
+        "tonalRamp": ["#000000", "#101010", "#262626", "#3f3f3f", "#5c5c5c", "#8a8a8a", "#c2c2c2", "#f2f2f2"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Booklet Stock",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#1a1a1a", "#333333", "#595959", "#808080", "#a6a6a6", "#cccccc", "#ebebeb", "#ffffff"]
+      },
+      "ghost": {
+        "role": "neutral",
+        "displayName": "Seated Ghost",
+        "canonical": "rgba(255, 255, 255, 0.26)",
+        "tonalRamp": ["#0f4a67", "#146286", "#1878a6", "#1e8ac4", "#4a9fcf", "#62add6", "#8ec5e2", "#b9d6e8"]
+      },
+      "ghost-line": {
+        "role": "neutral",
+        "displayName": "Ghost Keyline",
+        "canonical": "rgba(16, 16, 16, 0.5)",
+        "tonalRamp": ["#101010", "#1f1f1f", "#333333", "#4f4f4f", "#6b6b6b", "#8f8f8f", "#b8b8b8", "#e0e0e0"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Hue-Tinted Ink",
+        "canonical": "#0f3346",
+        "tonalRamp": ["#04131b", "#0a2432", "#0f3346", "#17485f", "#215f79", "#2f7a98", "#5fa6c2", "#a9d1e0"]
+      },
+      "paper-soft": {
+        "role": "neutral",
+        "displayName": "Hue-Tinted Slate",
+        "canonical": "#3d5a6b",
+        "tonalRamp": ["#101a1f", "#1d2d36", "#2b414e", "#3d5a6b", "#527689", "#7294a4", "#9fb6c1", "#d0dce2"]
+      },
+      "bag-stock": {
+        "role": "neutral",
+        "displayName": "Bag Stock",
+        "canonical": "rgba(255, 255, 255, 0.3)",
+        "tonalRamp": ["#0f4a67", "#146286", "#1878a6", "#1e8ac4", "#4a9fcf", "#62add6", "#8ec5e2", "#c6dfed"]
+      },
+      "chip-fill": {
+        "role": "neutral",
+        "displayName": "Sprue Tint",
+        "canonical": "rgba(30, 138, 196, 0.14)",
+        "tonalRamp": ["#1e8ac4", "#4a9fcf", "#6fb3d9", "#95c8e4", "#bbdcee", "#d4e9f4", "#e4f1f8", "#f2f8fc"]
+      },
+      "colophon-body": {
+        "role": "neutral",
+        "displayName": "Colophon Body",
+        "canonical": "#b9d6e8",
+        "tonalRamp": ["#0f3346", "#17485f", "#215f79", "#2f7a98", "#5fa6c2", "#8ec5e2", "#b9d6e8", "#e2eff6"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Position Claim", "purpose": "The single display line per page, one per surface. Capped at 5.6rem so the stroked numeral beside it carries the scale." },
+      "numeral": { "displayName": "Step Numeral", "purpose": "The stroked step number. White face, ink text-stroke, paint-order stroke fill. Always aria-hidden with a visually-hidden text equivalent." },
+      "headline": { "displayName": "Section Head", "purpose": "Section headings. No eyebrow, kicker or label above them." },
+      "title": { "displayName": "Part Name", "purpose": "Role names, bag names, stamp names, call-out sub-labels." },
+      "body": { "displayName": "Spec Prose", "purpose": "All running copy. Measure 52-57ch nominal, calibrated by the 1.29 factor." },
+      "label": { "displayName": "Plate Label", "purpose": "Rail mark and nav, call-out labels, step meta, quantities, actions, colophon plate terms." }
+    },
+    "fontLoading": {
+      "family": "Archivo Variable",
+      "source": "@fontsource-variable/archivo/wdth.css (self-hosted, @import in global.css)",
+      "axes": { "wght": "100-900", "wdth": "62-125%" },
+      "chCalibrationFactor": 1.29,
+      "chNote": "Archivo's '0' glyph measures 1.29x its own average character width, so ch-based measures overshoot by ~29%. --measure 57ch renders ~73 characters; scopes 52ch; stud-marked highlights calc(59ch + 1.5rem). Divide the character target by 1.29 before writing a ch value."
+    },
+    "contrast": {
+      "method": "Measured on real composites with every translucent layer flattened over its true backdrop. All pairs AA.",
+      "pairs": [
+        { "pair": "ink on ground", "ratio": "4.97:1" },
+        { "pair": "ink-soft on bag stock (#62add6)", "ratio": "5.35:1" },
+        { "pair": "ink on seated ghost", "ratio": "7.22:1" },
+        { "pair": "paper on new (white on red)", "ratio": "5.55:1" },
+        { "pair": "ink on action (ink on yellow)", "ratio": "11.36:1" },
+        { "pair": "paper-soft on paper", "ratio": "7.31:1" },
+        { "pair": "colophon body #b9d6e8 on ink", "ratio": "12.55:1" }
+      ],
+      "exceptions": [
+        { "pair": "step numeral white fill on ground", "ratio": "2.99:1", "why": "The 5px ink stroke is the glyph. paint-order: stroke fill, display scale only, aria-hidden with a visually-hidden text equivalent. Not a failure; not a licence for low-contrast functional text." }
+      ],
+      "unsafe": [
+        { "pair": "ink-soft on the bare ground", "why": "Only safe on translucent stock and paper." },
+        { "pair": "white on the ground below display scale", "ratio": "3.83:1" }
+      ]
+    },
+    "shadows": [
+      { "name": "held-above-plane", "value": "6px 6px 0 rgba(0, 0, 0, 0.26)", "purpose": "The arriving brick only. The booklet's own convention for a part held above the assembly plane; zero blur, hard offset. One instance in the build." },
+      { "name": "pressable-part", "value": "5px 5px 0 var(--ink)", "purpose": "Primary action at rest. Closes to 3px 3px 0 on hover/focus (with translate 2px,2px) and to 0 0 0 on active (with translate 5px,5px)." },
+      { "name": "drawn-stud", "value": "inset 0 0 0 2.5px var(--ground)", "purpose": "Highlight-list marker, paired with outline: 2.5px solid var(--ink). A stud seen from above: filled, never an outline, because an empty square reads as an unchecked box." }
+    ],
+    "motion": [
+      { "name": "ease-settle", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Every state transition: rail underline 160ms, action press 180ms, skip-link arrival 200ms." },
+      { "name": "seat-timeline", "value": "animation-timeline: view(); animation-range: entry 8% entry 62%", "purpose": "The signature. Scroll-driven, zero JavaScript. Gated by prefers-reduced-motion: no-preference AND @supports (animation-timeline: view()); the un-animated default is the finished assembly." },
+      { "name": "seat-keyframes", "value": "from { transform: translate(calc(var(--stud) * -0.7), calc(var(--stud) * -0.55)); opacity: 0.18 } to { transform: translate(0,0); opacity: 1 }", "purpose": "A brick travels to its seat nub-first and its keyline fills as it lands. Verified mid-flight at progress 0.62: translate(-10.5px, -8.3px) at 0.69 opacity." },
+      { "name": "seat-print-kill", "value": ".seats { animation: none !important; transform: none !important; opacity: 1 !important }", "purpose": "Paper never scrolls, so the animation would print frozen at its start frame and the first step would come out at 18% opacity." },
+      { "name": "seat-placement", "value": "applies to .step-row only, never the hero assembly", "purpose": "The hero is above the fold at load, where a view()-driven range completes before the first scroll." }
+    ],
+    "breakpoints": [
+      { "name": "narrow-inventory", "value": "1180px", "purpose": "Inventory narrows to 300px rather than dropping below the fold; rail tracking tightens to 0.14em." },
+      { "name": "stack-and-hoist", "value": "860px", "purpose": "Single column. Rail nav dropped. .hero__left becomes display: contents and the inventory takes order: 2 above the assembly so the yellow action stays above the fold; DOM and reading order untouched." },
+      { "name": "collapse-numeral", "value": "720px / 640px", "purpose": "Step rows and project spreads collapse their numeral column; numeral stroke 4px to 3px." },
+      { "name": "columnise-claim", "value": "560px", "purpose": "Numeral moves above the claim, the assembly stops stepping, the seating arrow rotates 90deg to point down the column, the rail mark drops its suffix." }
+    ],
+    "module": {
+      "stud": "40px",
+      "note": "Every structural measure is a multiple or stated fraction of one stud: section rhythm 2 stud, sheet padding 1.4 stud, anchor scroll-padding 2 stud, sticky inventory offset 2.1 stud, assembly indent 0.65 stud per layer, arriving-brick clearance 2.6 stud, seat travel -0.7/-0.55 stud.",
+      "sheetMaxWidth": "1360px",
+      "heroColumns": "minmax(0, 1fr) 356px"
+    },
+    "architecture": {
+      "contentSource": "src/data/resume.ts is the single source of truth. No copy is ever hardcoded in markup.",
+      "derivedQuantities": "src/lib/stats.ts computes every displayed quantity (career years, roles, shipped apps, longest tenure, parts inventory) so the inventory cannot drift from the content.",
+      "output": "Astro static, zero JavaScript shipped. The signature motion is CSS scroll-driven.",
+      "semantics": "Both assemblies are real <ol>. .steps carries `reversed` because the drawn numerals count 05 down to 01. The rail is a <header> outside <main> so the skip link to #main clears the nav.",
+      "deliberateOmission": "No email address and no phone number exist in resume.ts at all. Both are private and a public page is scraped by spam bots within days. This is an intentional constraint, not an omission to repair.",
+      "derivedAction": "src/lib/stats.ts primaryAction() derives where the single yellow action points: a mailto when profile.email is set, otherwise the first profile link (LinkedIn). Email is unset, so the action reads CONNECT ON LINKEDIN. Adding an email to resume.ts switches every action back to mailto and re-renders the colophon plate's email row, with no markup change."
+    },
+    "print": {
+      "tokenOverrides": { "--ground": "#ffffff", "--ghost": "transparent", "--new": "#000000", "--action": "#ffffff" },
+      "rules": [
+        "body 10.5pt, black on white",
+        ".rail position: static; .rail__nav and .actions display: none",
+        ".brick--new inverts to white fill with a 3px black keyline — --new flattens to black, so a black fill would bury its own label",
+        ".step-no 42pt with a 2px stroke",
+        ".seats is hard-disabled — paper never scrolls, so a scroll-driven animation would print frozen at its 18%-opacity start frame",
+        ".colophon__act .action--secondary is hidden: the inverted variant keeps stock-coloured text and keyline, which on white print stock is an invisible button",
+        "break-inside: avoid on .step and .section"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Action",
+      "kind": "button",
+      "refersTo": "action-primary",
+      "description": "The contact action, derived by primaryAction(). Yellow is reserved for this and nothing else; it presses home into its own shadow.",
+      "html": "<a class=\"ds-action ds-action--primary\" href=\"https://www.linkedin.com/in/example/\" rel=\"me noopener\">Connect on LinkedIn</a>",
+      "css": ".ds-action { display: block; padding: 0.95rem 1.2rem; border: 4px solid var(--ink, #101010); background: #fff; color: var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.16em; text-align: center; text-transform: uppercase; text-decoration: none; border-radius: 0; transition: transform 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1); } .ds-action--primary { background: var(--action, #f2c230); box-shadow: 5px 5px 0 var(--ink, #101010); } .ds-action--primary:hover, .ds-action--primary:focus-visible { transform: translate(2px,2px); box-shadow: 3px 3px 0 var(--ink, #101010); } .ds-action--primary:active { transform: translate(5px,5px); box-shadow: 0 0 0 var(--ink, #101010); } .ds-action:focus-visible { outline: 4px solid var(--ink, #101010); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Action",
+      "kind": "button",
+      "refersTo": "action-secondary",
+      "description": "Download CV and every non-primary action. Paper stock, inverting to ink on hover. Never yellow.",
+      "html": "<a class=\"ds-action2\" href=\"/cv.pdf\" download>Download CV</a>",
+      "css": ".ds-action2 { display: block; padding: 0.95rem 1.2rem; border: 4px solid var(--ink, #101010); background: #fff; color: var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.16em; text-align: center; text-transform: uppercase; text-decoration: none; border-radius: 0; transition: background 180ms cubic-bezier(0.16,1,0.3,1), color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-action2:hover, .ds-action2:focus-visible { background: var(--ink, #101010); color: #fff; } .ds-action2:focus-visible { outline: 4px solid var(--ink, #101010); outline-offset: 3px; }"
+    },
+    {
+      "name": "Brick — Seated",
+      "kind": "card",
+      "refersTo": "brick-seated",
+      "description": "An already-assembled role. Translucent white fill, half-alpha keyline, studs drawn above the top edge. The page's only container type.",
+      "html": "<span class=\"ds-brick ds-brick--seated\"><span class=\"ds-brick__co\">Eventbase</span><span class=\"ds-brick__yr\">2019</span></span>",
+      "css": ".ds-brick { position: relative; display: flex; align-items: baseline; gap: 1.1rem; min-width: 19rem; padding: 0.85rem 1.1rem; border: 4px solid var(--ink, #101010); border-radius: 4px; background: rgba(255,255,255,0.26); color: var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; } .ds-brick::before { content: ''; position: absolute; top: -11px; left: 14px; right: 14px; height: 11px; border: 4px solid var(--ink, #101010); border-bottom: none; border-radius: 5px 5px 0 0; background: inherit; } .ds-brick--seated, .ds-brick--seated::before { border-color: rgba(16,16,16,0.5); } .ds-brick__co { flex: 1; } .ds-brick__yr { font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }"
+    },
+    {
+      "name": "Brick — Arriving",
+      "kind": "card",
+      "refersTo": "brick-new",
+      "description": "The current role, and the only red surface in the hero. The hard offset shadow is the booklet's convention for a part held above the assembly plane; one instance only.",
+      "html": "<span class=\"ds-bricknew\"><span class=\"ds-bricknew__co\">Fanatics</span><span class=\"ds-bricknew__yr\">2026</span></span>",
+      "css": ".ds-bricknew { position: relative; display: flex; align-items: baseline; gap: 1.1rem; min-width: 19rem; padding: 0.85rem 1.1rem; border: 4px solid var(--ink, #101010); border-radius: 4px; background: var(--new, #d01217); color: #fff; box-shadow: 6px 6px 0 rgba(0,0,0,0.26); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; } .ds-bricknew::before { content: ''; position: absolute; top: -11px; left: 14px; right: 14px; height: 11px; border: 4px solid var(--ink, #101010); border-bottom: none; border-radius: 5px 5px 0 0; background: inherit; } .ds-bricknew__co { flex: 1; } .ds-bricknew__yr { font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }"
+    },
+    {
+      "name": "Call-out with Dotted Leaders",
+      "kind": "card",
+      "refersTo": "callout",
+      "description": "The 1:1 detail panel: white stock, 4px keyline, label underscored by a 3px rule, parts listed with dotted leaders and ink quantities. Quantities are ink at weight 800, never red.",
+      "html": "<aside class=\"ds-callout\"><h2 class=\"ds-callout__label\">Parts inventory</h2><ul class=\"ds-leaders\"><li class=\"ds-leader\"><span class=\"ds-leader__name\">Years shipping</span><span class=\"ds-leader__fill\"></span><span class=\"ds-leader__qty\">12</span></li><li class=\"ds-leader\"><span class=\"ds-leader__name\">Apps shipped</span><span class=\"ds-leader__fill\"></span><span class=\"ds-leader__qty\">9</span></li></ul></aside>",
+      "css": ".ds-callout { padding: 1.5rem; background: #fff; border: 4px solid var(--ink, #101010); border-radius: 0; font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #101010); } .ds-callout__label { margin: 0; padding-bottom: 0.7rem; border-bottom: 3px solid var(--ink, #101010); font-size: 0.74rem; font-weight: 800; font-variation-settings: 'wdth' 82; letter-spacing: 0.24em; text-transform: uppercase; } .ds-leaders { list-style: none; margin: 0.75rem 0 0; padding: 0; } .ds-leader { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.42rem 0; border-bottom: 1px dotted rgba(16,16,16,0.45); font-size: 0.9rem; } .ds-leader:last-child { border-bottom: none; } .ds-leader__name { font-weight: 600; } .ds-leader__fill { flex: 1; } .ds-leader__qty { font-weight: 800; letter-spacing: 0.05em; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A part still on the sprue: small, ink-edged, countable. Static — never a filter, never a link, no selected state. Fill is the ground tint inside white panels and solid paper inside a translucent bag.",
+      "html": "<ul class=\"ds-chips\"><li class=\"ds-chip\">Kotlin</li><li class=\"ds-chip\">Jetpack Compose</li><li class=\"ds-chip ds-chip--onbag\">Spring Boot</li></ul>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 0.44rem; list-style: none; margin: 0; padding: 0; } .ds-chip { padding: 0.3rem 0.58rem; border: 2px solid var(--ink, #101010); border-radius: 0; background: rgba(30,138,196,0.14); color: var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; } .ds-chip--onbag { background: #fff; font-size: 0.82rem; letter-spacing: 0.03em; }"
+    },
+    {
+      "name": "Sealed Parts Bag",
+      "kind": "card",
+      "refersTo": "bag",
+      "description": "A skill group as a sealed bag: translucent stock, head crimped by a 3px rule, piece count in hue-tinted ink. No shadow, no radius. Bags align to start rather than stretching — a half-empty sealed bag is slack, not rhythm.",
+      "html": "<section class=\"ds-bag\"><header class=\"ds-bag__head\"><h3 class=\"ds-bag__name\">Mobile development</h3><span class=\"ds-bag__count\">6 pcs</span></header><ul class=\"ds-bag__items\"><li class=\"ds-bag__chip\">Kotlin</li><li class=\"ds-bag__chip\">Ktor</li></ul></section>",
+      "css": ".ds-bag { position: relative; padding: 1.15rem 1.2rem 1.25rem; background: rgba(255,255,255,0.3); border: 4px solid var(--ink, #101010); border-radius: 0; font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #101010); } .ds-bag__head { display: flex; align-items: baseline; gap: 0.7rem; padding-bottom: 0.7rem; border-bottom: 3px solid var(--ink, #101010); } .ds-bag__name { flex: 1; margin: 0; font-size: 1.02rem; font-weight: 800; font-variation-settings: 'wdth' 82; letter-spacing: 0.02em; line-height: 0.92; text-transform: uppercase; } .ds-bag__count { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; font-variant-numeric: tabular-nums; color: var(--ink-soft, #0f3346); } .ds-bag__items { display: flex; flex-wrap: wrap; gap: 0.44rem; list-style: none; margin: 0.95rem 0 0; padding: 0; } .ds-bag__chip { padding: 0.32rem 0.6rem; border: 2px solid var(--ink, #101010); background: #fff; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.03em; }"
+    },
+    {
+      "name": "Inspection Stamp",
+      "kind": "card",
+      "refersTo": "stamp",
+      "description": "A credential as an approval stamp: double keyline, the inner rule inset 5px. Certifications double the inner rule rather than taking a colour, because red is the current role's alone.",
+      "html": "<article class=\"ds-stamp ds-stamp--cert\"><h3 class=\"ds-stamp__name\">Android Developer Nanodegree</h3><p class=\"ds-stamp__from\">Udacity</p><p class=\"ds-stamp__meta\"><time datetime=\"2017\">2017</time></p></article>",
+      "css": ".ds-stamp { position: relative; padding: 1.3rem 1.35rem; background: #fff; border: 4px solid var(--ink, #101010); border-radius: 0; font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #101010); } .ds-stamp::after { content: ''; position: absolute; inset: 5px; border: 2px solid var(--ink, #101010); pointer-events: none; } .ds-stamp--cert::after { border-width: 3px; border-style: double; } .ds-stamp__name { margin: 0; font-size: 1.1rem; font-weight: 800; font-variation-settings: 'wdth' 82; letter-spacing: 0.01em; line-height: 0.92; text-transform: uppercase; text-wrap: balance; } .ds-stamp__from { margin: 0.55rem 0 0; font-size: 0.95rem; font-weight: 600; } .ds-stamp__meta { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin: 0.5rem 0 0; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; font-variant-numeric: tabular-nums; color: var(--paper-soft, #3d5a6b); }"
+    },
+    {
+      "name": "Running Head (Rail)",
+      "kind": "nav",
+      "refersTo": "rail",
+      "description": "A booklet running head, not a nav bar: ground-coloured so it reads as the sheet itself, 4px ink keyline below, sticky, and placed outside <main> so the skip link clears it. Nav is dropped entirely below 860px.",
+      "html": "<header class=\"ds-rail\"><span class=\"ds-rail__mark\">Francesc Pérez · Build Instructions</span><nav class=\"ds-rail__nav\" aria-label=\"Sections\"><a href=\"#experience\">Steps</a><a href=\"#skills\">Parts</a><a href=\"#credentials\">Certification</a></nav><span class=\"ds-rail__count\">5 steps · 12 yrs</span></header>",
+      "css": ".ds-rail { position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 0.6rem 32px; align-items: baseline; justify-content: space-between; padding: 0.85rem 56px; background: var(--ground, #1e8ac4); border-bottom: 4px solid var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #101010); } .ds-rail__mark { font-size: 0.82rem; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; } .ds-rail__nav { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; } .ds-rail__nav a { color: inherit; padding-bottom: 2px; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 160ms cubic-bezier(0.16,1,0.3,1); } .ds-rail__nav a:hover, .ds-rail__nav a:focus-visible { border-bottom-color: var(--ink, #101010); } .ds-rail__nav a:focus-visible { outline: 4px solid var(--ink, #101010); outline-offset: 3px; } .ds-rail__count { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; font-variant-numeric: tabular-nums; white-space: nowrap; }"
+    },
+    {
+      "name": "Step Row",
+      "kind": "custom",
+      "refersTo": "brick-seated",
+      "description": "A role as a numbered assembly step: stroked numeral in its own column, dashed ghost rule above, highlights marked by drawn studs rather than bullet glyphs. The red Current badge and the red panel keyline are the only red in the section. Carries the .seats scroll-driven motion.",
+      "html": "<li class=\"ds-step\"><div class=\"ds-step__no\"><span class=\"ds-stepno\" aria-hidden=\"true\">05</span><span class=\"ds-vh\">Step 5 of 5</span></div><div class=\"ds-step__body\"><h3 class=\"ds-step__co\">Fanatics<span class=\"ds-step__live\">Current</span></h3><p class=\"ds-step__role\">Senior Android &amp; Backend Engineer</p><p class=\"ds-step__meta\"><time datetime=\"2026-01\">Jan 2026 — present</time><span>Barcelona, Spain</span></p><ul class=\"ds-step__hl\"><li>Ships the Android client and the Kotlin backend behind it.</li></ul></div></li>",
+      "css": ".ds-step { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr); gap: 2rem; padding-block: 44px; border-top: 2px dashed rgba(16,16,16,0.5); list-style: none; font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; color: var(--ink, #101010); } .ds-stepno { display: block; font-size: 5.4rem; font-variation-settings: 'wdth' 76; font-weight: 900; line-height: 0.76; letter-spacing: -0.05em; color: #fff; -webkit-text-stroke: 4px var(--ink, #101010); paint-order: stroke fill; font-variant-numeric: tabular-nums; } .ds-vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .ds-step__co { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; margin: 0; font-size: 2.1rem; font-weight: 800; font-variation-settings: 'wdth' 82; letter-spacing: -0.03em; line-height: 0.92; text-transform: uppercase; } .ds-step__live { padding: 0.26rem 0.6rem; background: var(--new, #d01217); color: #fff; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; } .ds-step__role { margin: 0.3rem 0 0; font-size: 1.02rem; font-weight: 700; } .ds-step__meta { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; margin: 0.7rem 0 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; font-variant-numeric: tabular-nums; } .ds-step__hl { display: flex; flex-direction: column; gap: 0.62rem; list-style: none; margin: 1.1rem 0 0; padding: 0; } .ds-step__hl li { position: relative; padding-left: 1.5rem; max-width: calc(59ch + 1.5rem); font-size: 0.95rem; font-weight: 500; } .ds-step__hl li::before { content: ''; position: absolute; left: 0; top: 0.46em; width: 12px; height: 12px; border-radius: 50%; background: var(--ink, #101010); box-shadow: inset 0 0 0 2.5px var(--ground, #1e8ac4); outline: 2.5px solid var(--ink, #101010); }"
+    },
+    {
+      "name": "Colophon Panel",
+      "kind": "custom",
+      "refersTo": "colophon",
+      "description": "The manufacturer's panel: a full-bleed ink slab closing the booklet with the last chance to act and a dotted-leader plate. Body copy is tinted from the ground's hue, never gray. The secondary action inverts to a paper keyline here, and its focus ring switches to yellow because ink-on-ink would vanish.",
+      "html": "<footer class=\"ds-colophon\"><h2 class=\"ds-colophon__h\">Next step</h2><p class=\"ds-colophon__scope\">Open to senior Android and backend work, permanent or contract.</p><dl class=\"ds-plate\"><div><dt>Based in</dt><dd>Barcelona, Spain</dd></div><div><dt>LinkedIn</dt><dd><a href=\"https://www.linkedin.com/in/example/\" rel=\"me noopener\">linkedin.com/in/example/</a></dd></div></dl></footer>",
+      "css": ".ds-colophon { padding: 52px; background: var(--ink, #101010); color: #fff; border: 4px solid var(--ink, #101010); font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif; } .ds-colophon__h { margin: 0; font-size: 3.4rem; font-weight: 800; font-variation-settings: 'wdth' 82; letter-spacing: -0.03em; line-height: 0.92; text-transform: uppercase; } .ds-colophon__scope { margin: 0.8rem 0 0; max-width: 48ch; font-size: 1.1rem; font-weight: 500; line-height: 1.55; color: #b9d6e8; } .ds-plate { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 0 2rem; margin: 1.9rem 0 0; padding-top: 1.2rem; border-top: 2px solid rgba(255,255,255,0.34); } .ds-plate > div { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.46rem 0; border-bottom: 1px dotted rgba(255,255,255,0.36); } .ds-plate dt { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; } .ds-plate dd { margin: 0 0 0 auto; font-size: 0.88rem; font-weight: 700; text-align: right; overflow-wrap: anywhere; } .ds-plate a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; } .ds-plate a:hover, .ds-plate a:focus-visible { color: var(--action, #f2c230); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Build Instructions",
+    "overview": "The page is a printed assembly booklet, not a website dressed as one. Sky-blue instruction stock runs edge to edge carrying a radial stud grid on a 40px module, and that module rules every measure on the page. Ink is a keyline at 4px — drawn, not styled: there are no soft borders, no tinted dividers, no 1px hairlines doing the work of a rule. The only container the world admits is the brick, with its studs drawn above its top edge, and the only decoration is information: numerals, quantities, dotted leaders, one arrow.\n\nThe register is technical manual, held deliberately clear of toy packaging. Heavy condensed grotesque caps, real measured quantities derived from data rather than written by hand, and a palette of exactly two accents spent on exactly two jobs. The sequence runs backwards — step 05 at the top, counting down to 01 — because a recruiter wants today's role first and the assembly metaphor still carries real information read that way. Density is high and unapologetic: the first viewport delivers the claim, the whole twelve-year stack, six derived quantities and the primary action without a scroll.\n\nConfirmed rejections: nothing on this page is a card in a grid. No centred hero over a role subline with two buttons. No eyebrow or kicker above any heading — section heads carry themselves. No rounded playful shapes, no primary-colour confetti, no studs used decoratively where they are not structural. No glyph bullets; the one arrow in the build is inline SVG and the highlight markers are drawn studs.",
+    "keyCharacteristics": [
+      "A 40px stud module that governs indent, gutter, padding and section rhythm",
+      "4px keyline ink; radius 0 everywhere except 4px on bricks",
+      "Two reserved accents, each spent on exactly one job",
+      "Heavy condensed Archivo caps across every heading and label",
+      "Quantities derived from data, never typed into markup",
+      "One authored motion moment, scroll-driven, zero JavaScript shipped"
+    ],
+    "rules": [
+      { "name": "The Reserved Accent Rule", "body": "Red is the current role. Yellow is the primary action. Neither colour may be spent on anything else — not a quantity, not a hover state on a utility affordance, not a skip link, not a certification badge. Both reservations were broken during the build and repaired; the parts-inventory quantities run at weight 800 ink (six red numerals competed with the one brick that owns red) and the skip link runs on paper stock (yellow belongs to the action alone). Each new surface gets at most one red element and at most one yellow element.", "section": "colors" },
+      { "name": "The Flatten-Before-Judging Rule", "body": "Half this palette is translucent. Never judge a new colour pair against the token value; composite the translucent layer over its actual backdrop first and measure that. This is the trap that produced the build's one real contrast failure. The real backdrops are: seated ghost over the ground, bag stock over the ground (#62add6), chip fill over paper.", "section": "colors" },
+      { "name": "The No-Gray Rule", "body": "Secondary text is tinted from the ground's own hue. There is no neutral gray anywhere in the system.", "section": "colors" },
+      { "name": "The 1.29 Calibration Rule", "body": "Archivo's '0' glyph is 1.29x the width of its own average character, so every ch-based measure overshoots by roughly 29%. Nominal ch values are wrong in this face. --measure is therefore 57ch (renders ~73 characters), step scopes and project descriptions are 52ch, and the stud-marked highlight list is calc(59ch + 1.5rem) — the measure plus the marker's gutter added back. Derive any new measure by dividing the character target by 1.29, never by typing the target as ch.", "section": "typography" },
+      { "name": "The Measure-On-The-Item Rule", "body": "ch resolves against the element's own font-size. Set the measure on the text element, not on its list or wrapper: a measure on the parent of smaller children lets lines run to ~87 characters.", "section": "typography" },
+      { "name": "The Stroke-Is-The-Glyph Rule", "body": "The oversized numeral's legibility lives in its 5px ink stroke, not its white interior. The interior's 2.99:1 against the ground is correct and not a contrast failure, because the stroke carries the letterform at display scale. This licence applies only to a stroked display numeral at >=44px with paint-order: stroke fill and a text alternative beside it. It never licences low-contrast fill on functional text.", "section": "typography" },
+      { "name": "The Tabular Figures Rule", "body": "time, .qty and .step-no take font-variant-numeric: tabular-nums. Years and quantities must align down a column.", "section": "typography" },
+      { "name": "The Stud Multiple Rule", "body": "Every structural measure is a multiple or stated fraction of --stud (40px). Arbitrary gaps are drift.", "section": "layout" },
+      { "name": "The Action-Above-The-Fold Rule", "body": "At every width, the yellow primary action is reachable without scrolling. Narrow its container, re-order its container, but never let it fall below the fold.", "section": "layout" },
+      { "name": "The Two-Shadow Licence", "body": "Hard offset shadow belongs to exactly two elements: the arriving brick and the primary action. Both earn it as the booklet's own convention for a part off the plane. A third instance is drift. Soft, blurred, ambient or elevation-ramp shadows do not exist in this system — call-outs, bags, stamps and spreads are explicitly shadowless.", "section": "elevation" },
+      { "name": "The Drawn-Not-Styled Rule", "body": "Every edge is an ink keyline at 4px or 2px. No soft borders, no tinted hairlines, no border: 1px solid #ddd. The only 1px line in the system is a dotted leader, where dottedness is the point.", "section": "shapes" },
+      { "name": "The No-Card Rule", "body": "Nothing is a card. Every panel is a named booklet part — brick, call-out, bag, stamp, spread — with a convention of its own. If a new surface needs a container, pick the part whose function matches; do not add a sixth generic box.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do spend red on the current role only and yellow on the primary action only — at most one of each per surface.",
+      "Do derive every measure from the 40px stud module.",
+      "Do divide your character target by 1.29 before writing a ch value, and set the measure on the text element rather than its wrapper.",
+      "Do flatten translucent stock over its true backdrop before judging any contrast pair (#62add6 for bag stock, the ground for seated ghost).",
+      "Do draw every edge as a 4px or 2px ink keyline; use 1px only for a dotted leader.",
+      "Do keep the primary action above the fold at every width, narrowing or re-ordering its container rather than letting it drop.",
+      "Do keep all content in src/data/resume.ts and all displayed quantities in src/lib/stats.ts — no copy and no number is ever hardcoded in markup. This is the system's one architectural invariant: the parts inventory cannot drift from the content because it is computed from it.",
+      "Do gate scroll-driven motion behind prefers-reduced-motion, @supports (animation-timeline: view()), and a default state that is the finished composition; and kill it in print with !important.",
+      "Do hoist structure with display: contents + order when a narrow viewport needs a different visual order, leaving DOM and reading order intact.",
+      "Do give every aria-hidden display numeral a visually-hidden text equivalent.",
+      "Do keep the running head outside <main> so the skip link clears it."
+    ],
+    "donts": [
+      "Don't put red or yellow on a quantity, a utility affordance, a skip link, a certification badge, or a hover state outside the live-part convention.",
+      "Don't add a third hard offset shadow, and don't introduce blurred, ambient or elevation-ramp shadows at all. Call-outs, bags, stamps and spreads are shadowless.",
+      "Don't build a card, or a grid of equal cards. Pick the booklet part whose function matches.",
+      "Don't round a corner. Radius is 0 except the brick's 4px and its stud cap.",
+      "Don't place an eyebrow, kicker or label above a heading. The heading carries itself.",
+      "Don't use a glyph bullet, an icon font, or a system display face. Markers are drawn studs; the one arrow is inline SVG; the type is self-hosted Archivo Variable.",
+      "Don't use --ink-soft on the bare ground, or white on the ground below display scale (3.83:1).",
+      "Don't put a stud where it is not structural, or let the register drift toward toy packaging — no rounded playful shapes, no primary-colour confetti.",
+      "Don't put the seat animation on anything above the fold at load; a view() range completes before the first scroll and the motion is wasted.",
+      "Don't add a second arrow. Stacking order and ghosting carry every other relationship."
+    ]
+  }
+}

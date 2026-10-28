@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    background:#1E8AC4;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    color:#101010;
+    padding:32px 40px;
+    position:relative;
+  }
+  /* stud grid rules every alignment */
+  body::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle at 50% 50%, rgba(255,255,255,.17) 3.5px, transparent 4px);
+    background-size:40px 40px;
+  }
+  .page{position:relative;z-index:2;height:836px;display:flex;flex-direction:column}
+
+  .rail{display:flex;justify-content:space-between;align-items:baseline;
+        border-bottom:3px solid #101010;padding-bottom:12px}
+  .rail .t{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:800}
+  .rail .pg{font-size:13px;letter-spacing:.2em;font-weight:800;font-variant-numeric:tabular-nums}
+
+  .main{flex:1;display:flex;gap:34px;margin-top:26px}
+  .left{flex:1;display:flex;flex-direction:column}
+
+  /* oversized step numeral is almost the only text */
+  .step{display:flex;align-items:flex-start;gap:24px}
+  .step .num{
+    font-size:168px;line-height:.8;font-weight:800;letter-spacing:-.05em;
+    color:#fff;-webkit-text-stroke:5px #101010;font-variant-numeric:tabular-nums;
+  }
+  .step .who{padding-top:14px}
+  .step h1{font-size:62px;line-height:.9;font-weight:800;letter-spacing:-.035em;text-transform:uppercase}
+  .step .role{font-size:14px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;margin-top:12px}
+  .step .claim{font-size:16px;line-height:1.45;margin-top:12px;max-width:470px;font-weight:500}
+
+  /* prior assembly ghosted in keyline, new piece bright */
+  .assembly{margin-top:28px;flex:1;position:relative}
+  .brick{position:absolute;height:54px;border:4px solid #101010;border-radius:4px;
+         display:flex;align-items:center;padding:0 17px;
+         font-size:14.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .brick::before{
+    content:'';position:absolute;top:-11px;left:14px;right:14px;height:11px;
+    border:4px solid #101010;border-bottom:none;border-radius:5px 5px 0 0;
+  }
+  .ghost{background:rgba(255,255,255,.26);color:#101010;border-color:rgba(16,16,16,.5)}
+  .ghost::before{border-color:rgba(16,16,16,.5)}
+  .bright{background:#D01217;color:#fff;box-shadow:5px 5px 0 rgba(0,0,0,.26)}
+
+  .g1{left:0;top:208px;width:330px}
+  .g2{left:52px;top:144px;width:300px}
+  .g3{left:104px;top:80px;width:278px}
+  .g4{left:156px;top:16px;width:256px}
+  .nb{left:462px;top:16px;width:318px}
+
+  /* wordless arrow teaching the seat */
+  .arrow{position:absolute;left:404px;top:30px;width:58px;height:36px}
+  .arrow svg{width:100%;height:100%}
+
+  /* 1:1 call-out box in the corner */
+  .callout{width:352px;border:4px solid #101010;background:#fff;padding:19px;align-self:flex-start}
+  .callout .lab{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;font-weight:800;
+                padding-bottom:10px;border-bottom:3px solid #101010}
+  .callout ul{list-style:none;margin-top:12px}
+  .callout li{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;
+              padding:6px 0;border-bottom:1px dotted #101010}
+  .callout li b{font-weight:800;font-variant-numeric:tabular-nums}
+  .callout .acts{display:flex;flex-direction:column;gap:10px;margin-top:17px}
+  .callout .acts a{text-align:center;padding:14px;border:4px solid #101010;
+                   font-size:13px;font-weight:800;letter-spacing:.16em;
+                   text-transform:uppercase;text-decoration:none}
+  .callout .acts .pri{background:#F2C230;color:#101010;box-shadow:4px 4px 0 #101010}
+  .callout .acts .sec{background:#fff;color:#101010}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="rail">
+    <div class="t">Francesc Pérez · Build Instructions</div>
+    <div class="pg">Step 05 of 05 · 12 Years</div>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <div class="step">
+        <div class="num">05</div>
+        <div class="who">
+          <h1>Android<br>+ Backend</h1>
+          <div class="role">Senior Android &amp; Backend Engineer · Barcelona</div>
+          <div class="claim">Each role clicks onto the last. The newest piece ships both
+            halves: the Android client and the Kotlin backend feeding it.</div>
+        </div>
+      </div>
+
+      <div class="assembly">
+        <div class="brick ghost g1">Everis · 2014</div>
+        <div class="brick ghost g2">Napptilus · 2017</div>
+        <div class="brick ghost g3">Eventbase · 2019</div>
+        <div class="brick ghost g4">Fickl · 2021</div>
+        <div class="arrow">
+          <svg viewBox="0 0 58 36">
+            <path d="M2 18 H44" stroke="#101010" stroke-width="5"
+                  stroke-dasharray="9 7" fill="none"/>
+            <path d="M40 6 L56 18 L40 30 Z" fill="#101010"/>
+          </svg>
+        </div>
+        <div class="brick bright nb">Fanatics · 2026</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="lab">Parts Inventory</div>
+      <ul>
+        <li>Kotlin <b>12y</b></li>
+        <li>Android SDK <b>8y</b></li>
+        <li>Spring Boot <b>·</b></li>
+        <li>Jetpack Compose <b>·</b></li>
+        <li>KMP <b>·</b></li>
+        <li>PostgreSQL · Redis <b>·</b></li>
+        <li>Shipped apps <b>8</b></li>
+        <li>Mentored <b>5</b></li>
+      </ul>
+      <div class="acts">
+        <a class="pri" href="#">Email Francesc</a>
+        <a class="sec" href="#">Download CV</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    font-family:'Geneva','Helvetica Neue',Arial,sans-serif;
+    color:#000;
+    /* 50% ordered dither desktop ground */
+    background-color:#fff;
+    background-image:
+      repeating-conic-gradient(#000 0% 25%, #fff 0% 50%);
+    background-size:4px 4px;
+    position:relative;
+  }
+  /* menu bar */
+  .menubar{height:34px;background:#fff;border-bottom:2px solid #000;
+           display:flex;align-items:center;gap:30px;padding:0 16px;
+           font-size:14px;font-weight:700;position:relative;z-index:30}
+  .menubar .apple{font-size:16px}
+  .menubar .sp{flex:1}
+  .menubar .clock{font-variant-numeric:tabular-nums}
+
+  /* windows as overlapping rectangles with one-pixel black chrome */
+  .win{position:absolute;background:#fff;border:2px solid #000;
+       box-shadow:3px 3px 0 #000}
+  .title{height:30px;border-bottom:2px solid #000;display:flex;align-items:center;
+         padding:0 9px;gap:9px;
+         background:repeating-linear-gradient(0deg,#000 0 1px,#fff 1px 3px)}
+  .title .box{width:15px;height:15px;border:2px solid #000;background:#fff;flex:0 0 auto}
+  .title .nm{background:#fff;padding:0 9px;font-size:13.5px;font-weight:700;
+             letter-spacing:.02em;text-transform:uppercase}
+  .body{padding:17px}
+
+  /* frontmost window — the position claim at pixel-caps scale */
+  .w-main{left:74px;top:92px;width:688px;z-index:20}
+  .w-main h1{font-size:60px;line-height:.92;font-weight:800;letter-spacing:-.025em;
+             text-transform:uppercase}
+  .w-main .role{font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+                margin-top:13px;padding-bottom:13px;border-bottom:2px solid #000}
+  .w-main .claim{font-size:16px;line-height:1.5;margin-top:13px;max-width:560px}
+  /* selection inverts to solid black */
+  .w-main .claim b{background:#000;color:#fff;padding:1px 5px;font-weight:700}
+  .w-main .acts{display:flex;gap:11px;margin-top:19px}
+  .w-main .acts a{border:2px solid #000;box-shadow:2px 2px 0 #000;background:#fff;
+                  padding:11px 20px;font-size:13px;font-weight:700;letter-spacing:.14em;
+                  text-transform:uppercase;text-decoration:none;color:#000}
+  .w-main .acts a.pri{background:#000;color:#fff}
+
+  /* stacked role windows behind */
+  .w-r1{left:788px;top:132px;width:398px;z-index:14}
+  .w-r2{left:820px;top:356px;width:398px;z-index:13}
+  .w-r3{left:852px;top:580px;width:398px;z-index:12}
+  .rowline{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;
+           border-bottom:1px dotted #000}
+  .rowline:last-child{border-bottom:none}
+  .rowline b{font-weight:700}
+  .rowline span{font-variant-numeric:tabular-nums}
+
+  /* 32px icons on the desktop floor */
+  .icons{position:absolute;left:74px;top:600px;display:flex;gap:34px;z-index:10}
+  .ico{width:116px;text-align:center}
+  .ico .glyph{width:52px;height:52px;border:2px solid #000;background:#fff;margin:0 auto;
+              box-shadow:2px 2px 0 #000;
+              background-image:repeating-conic-gradient(#000 0% 25%,#fff 0% 50%);
+              background-size:4px 4px}
+  .ico .cap{font-size:12px;font-weight:700;margin-top:7px;background:#fff;
+            display:inline-block;padding:2px 5px;border:1px solid #000}
+  /* marching ants on the selected icon */
+  .ico.sel .glyph{outline:2px dashed #000;outline-offset:3px}
+  .ico.sel .cap{background:#000;color:#fff}
+</style>
+</head>
+<body>
+  <div class="menubar">
+    <span class="apple">◉</span>
+    <span>File</span><span>Edit</span><span>Career</span><span>Special</span>
+    <span class="sp"></span>
+    <span class="clock">12 yrs · 8 apps</span>
+  </div>
+
+  <div class="win w-main">
+    <div class="title"><span class="box"></span><span class="nm">Francesc Pérez</span></div>
+    <div class="body">
+      <h1>Android<br>+ Backend</h1>
+      <div class="role">Senior Android &amp; Backend Engineer · Barcelona</div>
+      <div class="claim">Twelve years shipping both halves: I build the
+        <b>app</b> and the <b>backend</b> that feeds it. Offline-first Android for
+        Cisco, Deloitte, CES and SXSW; Kotlin and Spring Boot services behind them.</div>
+      <div class="acts">
+        <a class="pri" href="#">Email Francesc</a>
+        <a href="#">Download CV</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="win w-r1">
+    <div class="title"><span class="box"></span><span class="nm">Fanatics</span></div>
+    <div class="body">
+      <div class="rowline"><b>Senior Android &amp; Backend</b><span>2026—</span></div>
+      <div class="rowline"><span>Kotlin · Spring Boot · Payload</span></div>
+      <div class="rowline"><span>PostgreSQL · Redis · GraphQL</span></div>
+    </div>
+  </div>
+  <div class="win w-r2">
+    <div class="title"><span class="box"></span><span class="nm">Eventbase</span></div>
+    <div class="body">
+      <div class="rowline"><b>Senior Android</b><span>2019—2025</span></div>
+      <div class="rowline"><span>Compose · KMP · Jenkins</span></div>
+      <div class="rowline"><span>Mentored 5 · 20+ libraries</span></div>
+    </div>
+  </div>
+  <div class="win w-r3">
+    <div class="title"><span class="box"></span><span class="nm">Napptilus</span></div>
+    <div class="body">
+      <div class="rowline"><b>Android Developer</b><span>2017—2019</span></div>
+      <div class="rowline"><span>Oysho · 500K+ downloads</span></div>
+    </div>
+  </div>
+
+  <div class="icons">
+    <div class="ico sel"><div class="glyph"></div><div class="cap">Fanatics</div></div>
+    <div class="ico"><div class="glyph"></div><div class="cap">SXSW GO</div></div>
+    <div class="ico"><div class="glyph"></div><div class="cap">CES</div></div>
+    <div class="ico"><div class="glyph"></div><div class="cap">Oysho</div></div>
+    <div class="ico"><div class="glyph"></div><div class="cap">Privalia</div></div>
+  </div>
+</body>
+</html>

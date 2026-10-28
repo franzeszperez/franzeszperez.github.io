@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    background:#1A1C1F;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    color:#F7F5F0;
+    padding:26px;
+  }
+  /* brushed steel board frame is the ground */
+  .board{
+    height:848px;border-radius:5px;padding:22px 26px;
+    display:flex;flex-direction:column;
+    background:
+      linear-gradient(176deg,#4A4E54 0%,#2E3135 7%,#262A2E 93%,#44484E 100%),
+      repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.16), inset 0 -2px 0 rgba(0,0,0,.6);
+  }
+
+  /* board header rail */
+  .rail{display:flex;justify-content:space-between;align-items:baseline;
+        padding-bottom:13px;border-bottom:2px solid rgba(255,255,255,.2)}
+  .rail .t{font-size:13px;letter-spacing:.4em;text-transform:uppercase;font-weight:700;opacity:.9}
+  .rail .clk{font-size:13px;letter-spacing:.24em;font-variant-numeric:tabular-nums;
+             color:#E2A32B;font-weight:700}
+
+  /* the name as the top row, at board scale, in fixed character cells */
+  .marquee{display:flex;gap:5px;margin:20px 0 6px}
+  .marquee span{
+    width:70px;height:98px;border-radius:3px;
+    background:linear-gradient(180deg,#121314 0 49%,#0A0B0C 49% 51%,#17181A 51% 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;
+    font-size:62px;font-weight:700;letter-spacing:-.02em;
+    color:#F7F5F0;
+  }
+  .marquee span.gap{background:none;box-shadow:none;width:26px}
+  .sub{display:flex;gap:26px;font-size:13px;letter-spacing:.26em;
+       text-transform:uppercase;opacity:.82;margin-bottom:20px;font-weight:600}
+  .sub b{color:#E2A32B;font-weight:700}
+
+  /* fixed column headers — the columns never move */
+  .cols{display:grid;grid-template-columns:106px 1fr 232px 128px 164px;gap:12px;
+        font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+        padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.18);opacity:.82;font-weight:700}
+
+  /* rows are live entities ranked by time */
+  .rows{margin-top:4px}
+  .row{display:grid;grid-template-columns:106px 1fr 232px 128px 164px;gap:12px;
+       align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .cell{display:flex;gap:3px}
+  .cell i{
+    min-width:25px;height:35px;border-radius:2px;font-style:normal;
+    background:linear-gradient(180deg,#121314 0 49%,#0A0B0C 49% 51%,#17181A 51% 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;font-weight:700;color:#F7F5F0;
+  }
+  .yr{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+  .role{font-size:16px;font-weight:600;letter-spacing:.02em}
+  .disc{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#CDD2D7}
+  .st{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700}
+  .boarding{color:#E2A32B}
+  .boarding::before{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;
+                    background:#E2A32B;margin-right:9px;box-shadow:0 0 9px #E2A32B}
+  .departed{color:#C2C7CC}
+
+  /* actions live in the board's own cells as flap-faced keys */
+  .keys{margin-top:auto;padding-top:18px;border-top:2px solid rgba(255,255,255,.2);
+        display:flex;align-items:center;gap:12px}
+  .keys a{
+    padding:15px 28px;border-radius:3px;text-decoration:none;
+    font-size:13.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  }
+  .keys .primary{background:#E2A32B;color:#15171A}
+  .keys .flap{
+    background:linear-gradient(180deg,#121314 0 49%,#0A0B0C 49% 51%,#17181A 51% 100%);
+    color:#F7F5F0;box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+  }
+  .keys .sp{flex:1}
+  .keys .note{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#9AA0A6}
+</style>
+</head>
+<body>
+<div class="board">
+  <div class="rail">
+    <div class="t">Career Departures · Barcelona</div>
+    <div class="clk">12 YRS · 8 APPS · ON TIME</div>
+  </div>
+
+  <div class="marquee">
+    <span>F</span><span>R</span><span>A</span><span>N</span><span>C</span><span>E</span><span>S</span><span>C</span>
+    <span class="gap"></span>
+    <span>P</span><span>É</span><span>R</span><span>E</span><span>Z</span>
+  </div>
+  <div class="sub">
+    <span>Senior Android &amp; Backend Engineer</span>
+    <span><b>Android + Backend</b> — both halves, one engineer</span>
+  </div>
+
+  <div class="cols">
+    <div>Year</div><div>Role</div><div>Discipline</div><div>Shipped</div><div>Status</div>
+  </div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="yr">2026</div>
+      <div class="role">Fanatics · Senior Android &amp; Backend</div>
+      <div class="disc">Kotlin · Spring · BFF</div>
+      <div class="disc">Fanatics</div>
+      <div class="st boarding">Boarding</div>
+    </div>
+    <div class="row">
+      <div class="yr">2019</div>
+      <div class="role">Eventbase · Senior Android</div>
+      <div class="disc">Compose · KMP</div>
+      <div class="disc">SXSW · CES · +2</div>
+      <div class="st departed">Departed</div>
+    </div>
+    <div class="row">
+      <div class="yr">2021</div>
+      <div class="role">Fickl · Full Stack</div>
+      <div class="disc">React · Firebase</div>
+      <div class="disc">—</div>
+      <div class="st departed">Departed</div>
+    </div>
+    <div class="row">
+      <div class="yr">2017</div>
+      <div class="role">Napptilus · Android</div>
+      <div class="disc">Java · Kotlin · MVP</div>
+      <div class="disc">Oysho · Privalia</div>
+      <div class="st departed">Departed</div>
+    </div>
+    <div class="row">
+      <div class="yr">2014</div>
+      <div class="role">Everis · IT Consultant</div>
+      <div class="disc">Banking · Murex</div>
+      <div class="disc">—</div>
+      <div class="st departed">Departed</div>
+    </div>
+  </div>
+
+  <div class="keys">
+    <a class="primary" href="#">Email Francesc</a>
+    <a class="flap" href="#">Download CV</a>
+    <div class="sp"></div>
+    <div class="note">Sortable table underneath · Respects reduced-motion</div>
+  </div>
+</div>
+</body>
+</html>

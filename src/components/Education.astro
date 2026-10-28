@@ -1,20 +1,105 @@
 ---
-import { education } from '../data/resume';
+/**
+ * The booklet's back cover: certification stamps and the manufacturer's
+ * marks. Education and certifications read as approval stamps because that
+ * is what they functionally are.
+ */
+import { education, certifications } from '../data/resume';
 import { formatRange } from '../lib/dates';
 ---
 
-<section aria-labelledby="education-heading">
-	<h2 id="education-heading">Education</h2>
+<section class="section" id="credentials" aria-labelledby="credentials-label">
+	<h2 id="credentials-label">Certification</h2>
+	<p class="section__intro">Approved and stamped.</p>
 
-	{
-		education.map((entry) => (
-			<article>
-				<h3>{entry.qualification}</h3>
-				<p>{entry.institution}</p>
-				<p>
-					<time datetime={entry.start}>{formatRange(entry.start, entry.end)}</time>
-				</p>
-			</article>
-		))
-	}
+	<div class="stamps">
+		{
+			education.map((entry) => (
+				<article class="stamp">
+					<h3 class="stamp__name">{entry.qualification}</h3>
+					<p class="stamp__from">{entry.institution}</p>
+					<p class="stamp__meta">
+						{entry.location && <span>{entry.location}</span>}
+						{entry.start && (
+							<time datetime={entry.start}>{formatRange(entry.start, entry.end ?? null)}</time>
+						)}
+					</p>
+				</article>
+			))
+		}
+
+		{
+			certifications.map((cert) => (
+				<article class="stamp stamp--cert">
+					<h3 class="stamp__name">{cert.name}</h3>
+					<p class="stamp__from">{cert.issuer}</p>
+					{cert.year && (
+						<p class="stamp__meta">
+							<time datetime={cert.year}>{cert.year}</time>
+						</p>
+					)}
+				</article>
+			))
+		}
+	</div>
 </section>
+
+<style>
+	.stamps {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+		align-items: start;
+		gap: 1rem;
+		margin-top: clamp(1.4rem, 3vw, calc(var(--stud) * 1.1));
+	}
+
+	/* An inspection stamp: double keyline, the inner rule offset, nothing
+	   rounded. Deliberately not a card — no shadow, and the double border
+	   is the stamp's own convention. */
+	.stamp {
+		position: relative;
+		padding: 1.3rem 1.35rem;
+		background: var(--paper);
+		border: var(--keyline) solid var(--ink);
+	}
+
+	.stamp::after {
+		content: '';
+		position: absolute;
+		inset: 5px;
+		border: var(--keyline-thin) solid var(--ink);
+		pointer-events: none;
+	}
+
+	.stamp__name {
+		font-size: 1.1rem;
+		letter-spacing: 0.01em;
+		text-wrap: balance;
+	}
+
+	.stamp__from {
+		margin-top: 0.55rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+	}
+
+	.stamp__meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem 0.9rem;
+		margin-top: 0.5rem;
+		font-size: 0.76rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--paper-soft);
+	}
+
+	/* No red here: red is the current role's alone. A certification is
+	   distinguished by its stamp instead — the inner rule doubles. */
+	.stamp--cert::after {
+		inset: 5px;
+		border-width: 3px;
+		border-style: double;
+	}
+</style>

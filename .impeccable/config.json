@@ -1,0 +1,36 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          ".impeccable/sketches/model-pick.html"
+        ],
+        "createdAt": "2026-10-27T10:10:54.467Z",
+        "reason": "Decision-round fixture, not shipping code: printed-wayfinding panel stock is the candidate world's own material and the card exists to show it. Will be re-judged if this direction wins the build."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/sketches/canon.html"
+        ],
+        "createdAt": "2026-10-27T10:10:54.506Z",
+        "reason": "Deliberate documentation of bad design: canon.html renders the category-default portfolio as the standing-exit card, so its generic treatment is the content."
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/sketches/canon.html"
+        ],
+        "createdAt": "2026-10-27T10:10:54.552Z",
+        "reason": "Deliberate documentation of bad design: canon card depicts the category default verbatim."
+      }
+    ]
+  },
+  "buildPath": "code"
+}

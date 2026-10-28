@@ -1,25 +1,124 @@
 ---
+/**
+ * Alternate builds — the back-of-the-booklet page showing what else these
+ * parts make. One project today, so the layout must not look broken with a
+ * single entry: it runs as a full-width spread rather than a grid of cards.
+ */
 import { projects } from '../data/resume';
 ---
 
-<section aria-labelledby="projects-heading">
-	<h2 id="projects-heading">Projects</h2>
+{
+	projects.length > 0 && (
+		<section class="section" id="projects" aria-labelledby="projects-label">
+			<h2 id="projects-label">Alternate builds</h2>
+			<p class="section__intro">Built outside the box, from the same parts.</p>
 
-	{
-		projects.map((project) => (
-			<article>
-				<h3>
-					{project.url ? (
-						<a href={project.url} rel="noopener">
-							{project.name}
-						</a>
-					) : (
-						project.name
-					)}
-				</h3>
-				<p>{project.description}</p>
-				<p>{project.stack.join(' · ')}</p>
-			</article>
-		))
+			<ul class="builds">
+				{projects.map((project, i) => (
+					<li class="build">
+						<div class="build__no">
+							<span class="step-no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+						</div>
+						<div class="build__body">
+							<h3>
+								{project.url ? (
+									<a href={project.url} rel="noopener">
+										{project.name}
+									</a>
+								) : (
+									project.name
+								)}
+							</h3>
+							<p class="step__meta">
+								<time datetime={project.year}>{project.year}</time>
+							</p>
+							<p class="build__desc">{project.description}</p>
+							<ul class="chips">
+								{project.stack.map((tech) => (
+									<li class="chip">{tech}</li>
+								))}
+							</ul>
+						</div>
+					</li>
+				))}
+			</ul>
+		</section>
+	)
+}
+
+<style>
+	.builds {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		margin-top: clamp(1.4rem, 3vw, calc(var(--stud) * 1.1));
 	}
-</section>
+
+	.build {
+		display: grid;
+		grid-template-columns: minmax(0, 6rem) minmax(0, 1fr);
+		gap: clamp(1rem, 2.2vw, 1.8rem);
+		align-items: start;
+		padding: clamp(1.2rem, 2.2vw, 1.6rem);
+		background: var(--paper);
+		border: var(--keyline) solid var(--ink);
+	}
+
+	.build__no .step-no {
+		font-size: clamp(2.8rem, 4.6vw, 4.4rem);
+		-webkit-text-stroke: 4px var(--ink);
+		color: var(--paper);
+	}
+
+	.build__body {
+		min-width: 0;
+	}
+
+	.build__body h3 {
+		font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+	}
+
+	.build__body h3 a {
+		text-decoration-thickness: 3px;
+		text-underline-offset: 4px;
+	}
+
+	.build__body h3 a:hover,
+	.build__body h3 a:focus-visible {
+		color: var(--new);
+	}
+
+	.build__desc {
+		margin-top: 0.8rem;
+		/* Calibrated for Archivo's condensed figures — see --measure. */
+		max-width: 52ch;
+		font-weight: 500;
+	}
+
+	.build .chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.44rem;
+		margin-top: 1rem;
+	}
+
+	.build .chip {
+		padding: 0.3rem 0.58rem;
+		border: var(--keyline-thin) solid var(--ink);
+		background: rgba(30, 138, 196, 0.14);
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+
+	@media (max-width: 640px) {
+		.build {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.3rem;
+		}
+
+		.build__no .step-no {
+			-webkit-text-stroke: 3px var(--ink);
+		}
+	}
+</style>

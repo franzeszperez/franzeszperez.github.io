@@ -1,23 +1,348 @@
 ---
-import { profile } from '../data/resume';
+/**
+ * Step 05 of 05 — the first viewport.
+ *
+ * The current role leads: the oversized numeral and the position claim sit
+ * left, the already-assembled career ghosts below them, and the arriving
+ * piece lands bright with an arrow to its seat. The parts inventory and the
+ * primary action hold the right column, above the fold.
+ */
+import { profile, experience } from '../data/resume';
+import {
+	currentRole,
+	rolesNewestFirst,
+	careerYears,
+	partsInventory,
+	primaryAction,
+} from '../lib/stats';
+import { formatMonth } from '../lib/dates';
+
+const parts = partsInventory();
+const years = careerYears();
+const stepCount = experience.length;
+
+const act = primaryAction();
+
+/**
+ * The link row carries whatever the primary action does not. With no email
+ * published the action *is* LinkedIn, so repeating it underneath would be the
+ * same destination twice in one box; the row then renders nothing at all.
+ */
+const otherLinks = profile.links.filter((link) => link.url !== act.href);
+
+/**
+ * The roles already seated, newest first. The stack steps up and to the
+ * right, so the newest sits highest and most indented and the arriving
+ * piece clears it at the top — and the reading order, for a recruiter and
+ * for a screen reader alike, starts at today's role rather than 2014.
+ */
+const seated = [...rolesNewestFirst].filter((job) => job !== currentRole);
+
+const claimLines = ['Android', '+ Backend'];
 ---
 
-<header>
-	<h1>{profile.name}</h1>
-	<p>{profile.headline}</p>
-	<p>{profile.location}</p>
-	<p>{profile.summary}</p>
+<header class="hero">
+	<div class="hero__left">
+		<div class="hero__claim">
+			<span class="step-no" aria-hidden="true">{String(stepCount).padStart(2, '0')}</span>
+			<div class="step__title">
+				<h1>
+					{claimLines.map((line, i) => (
+						<>
+							{i > 0 && <br />}
+							{line}
+						</>
+					))}
+				</h1>
+				<p class="step__meta">
+					<span>{profile.headline}</span>
+					<span>{profile.location}</span>
+				</p>
+				<p class="hero__scope">
+					Both halves, one engineer: {years} years building the Android client and the
+					Kotlin backend that feeds it. Each role clicks onto the last.
+				</p>
+			</div>
+		</div>
 
-	<ul>
-		<li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+		<!--
+			The assembly. Seated roles ghost in keyline; the current one arrives.
+			No seat animation here: this is above the fold at load, so a
+			view()-driven range has already finished before the first scroll.
+			The motion lives on the step rows, which do enter from below.
+		-->
+
+		<h2 class="visually-hidden">Career assembly</h2>
+		<ol class="assembly">
+			<li class="assembly__item assembly__item--new">
+				<svg class="assembly__arrow" viewBox="0 0 64 38" aria-hidden="true" focusable="false">
+					<path
+						d="M3 19 H46"
+						fill="none"
+						stroke="#101010"
+						stroke-width="5"
+						stroke-dasharray="9 7"
+						stroke-linecap="square"></path>
+					<path d="M43 5 L62 19 L43 33 Z" fill="#101010"></path>
+				</svg>
+				<span class="brick brick--new">
+					<span class="assembly__co">{currentRole.company}</span>
+					<span class="assembly__yr">{formatMonth(currentRole.start).split(' ').at(-1)}</span>
+				</span>
+			</li>
+			{
+				seated.map((job, i) => (
+					<li class="assembly__item" style={`--seat: ${seated.length - 1 - i}`}>
+						<span class="brick brick--seated">
+							<span class="assembly__co">{job.company}</span>
+							<span class="assembly__yr">{formatMonth(job.start).split(' ').at(-1)}</span>
+						</span>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+
+	<!-- Parts inventory: the 1:1 call-out box, and where contact lives. -->
+	<aside class="callout hero__parts" aria-labelledby="parts-label">
+		<h2 class="callout__label" id="parts-label">Parts inventory</h2>
+		<ul class="hero__leaders">
+			{
+				parts.map((part) => (
+					<li class="leader">
+						<span class="leader__name">{part.name}</span>
+						<span class="leader__fill" aria-hidden="true"></span>
+						<span class="leader__qty qty">{part.qty}</span>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="actions">
+			<a
+				class="action action--primary"
+				href={act.href}
+				rel={act.external ? 'me noopener' : undefined}
+			>
+				{act.label}
+			</a>
+			<a class="action action--secondary" href="/cv.pdf" download>Download CV</a>
+		</div>
+
 		{
-			profile.links.map((link) => (
-				<li>
-					<a href={link.url} rel="me noopener">
-						{link.label}
-					</a>
-				</li>
-			))
+			otherLinks.length > 0 && (
+				<ul class="hero__links">
+					{otherLinks.map((link) => (
+						<li>
+							<a href={link.url} rel="me noopener">
+								{link.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			)
 		}
-	</ul>
+	</aside>
 </header>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 356px;
+		gap: clamp(1.4rem, 2.6vw, calc(var(--stud) * 1.1));
+		align-items: start;
+		padding-block: clamp(1.6rem, 4vw, calc(var(--stud) * 1.6));
+	}
+
+	.hero__left {
+		min-width: 0;
+	}
+
+	.hero__claim {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: clamp(0.8rem, 2.2vw, 1.8rem);
+	}
+
+	.hero__scope {
+		margin-top: 0.95rem;
+		max-width: 46ch;
+		font-size: clamp(1rem, 1.2vw, 1.09rem);
+		font-weight: 500;
+	}
+
+	/* ---- the assembly ---- */
+
+	.assembly {
+		margin-top: clamp(1.8rem, 4vw, calc(var(--stud) * 1.5));
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 14px;
+	}
+
+	/* Each seated brick steps in and up, the way a booklet shows a stack
+	   rising. The indent is one stud per layer. */
+	.assembly__item {
+		margin-left: calc(var(--stud) * var(--seat, 0) * 0.65);
+	}
+
+	.assembly__item .brick {
+		display: flex;
+		align-items: baseline;
+		gap: 1.1rem;
+		min-width: 19rem;
+		font-size: 0.95rem;
+	}
+
+	.assembly__co {
+		flex: 1;
+	}
+
+	.assembly__yr {
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.08em;
+	}
+
+	/* The arriving piece sits clear of the stack, to the right, with the
+	   seating arrow pointing back at where it belongs. */
+	.assembly__item--new {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		/* Top of the stack and furthest right: the stack steps up toward it,
+		   and it is the piece still arriving. */
+		margin-bottom: 0.7rem;
+		margin-left: calc(var(--stud) * 2.6);
+	}
+
+	.assembly__arrow {
+		flex: 0 0 auto;
+		width: 64px;
+		height: 38px;
+		/* The arrow sits to the left of the arriving brick and points into
+		   it: this is the direction of travel, the piece seating itself. */
+	}
+
+	/* ---- the call-out ---- */
+
+	.hero__parts {
+		position: sticky;
+		top: calc(var(--stud) * 2.1);
+	}
+
+	.hero__leaders {
+		margin-top: 0.75rem;
+	}
+
+	.hero__links {
+		display: flex;
+		gap: 1.2rem;
+		margin-top: 1.1rem;
+		padding-top: 0.9rem;
+		border-top: 1px dotted rgba(16, 16, 16, 0.45);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.hero__links a {
+		text-decoration: none;
+		border-bottom: var(--keyline-thin) solid var(--ink);
+		padding-bottom: 1px;
+	}
+
+	.hero__links a:hover,
+	.hero__links a:focus-visible {
+		color: var(--new);
+		border-bottom-color: var(--new);
+	}
+
+	/* ---- adaptation ---- */
+
+	/* The inventory holds the right column as long as both it and the claim
+	   fit; narrowing it is better than dropping it below the fold, because
+	   the primary action lives inside it. */
+	@media (max-width: 1180px) {
+		.hero {
+			grid-template-columns: minmax(0, 1fr) 300px;
+		}
+	}
+
+	@media (max-width: 860px) {
+		.hero {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		/* The inventory is hoisted above the assembly so the primary action
+		   stays reachable without a scroll — the whole point of the box.
+		   .hero__left becomes the flow container so its own children can be
+		   ordered around the aside; the DOM order is untouched, so the
+		   reading order still runs claim, assembly, inventory. */
+		.hero__left {
+			display: contents;
+		}
+
+		.hero__claim {
+			order: 1;
+		}
+
+		.hero__parts {
+			order: 2;
+			position: static;
+			max-width: 440px;
+		}
+
+		.assembly {
+			order: 3;
+		}
+
+		/* With the inventory below the assembly, the stack no longer needs
+		   the full gap above it. */
+		.assembly {
+			margin-top: clamp(1.4rem, 3vw, 1.9rem);
+		}
+	}
+
+	@media (max-width: 560px) {
+		/* The numeral sits above the claim rather than beside it: at this
+		   width they fight for the same 10ch. */
+		.hero__claim {
+			flex-direction: column;
+			gap: 0.3rem;
+		}
+
+		/* The stack stops stepping: at phone width the indent would push the
+		   last brick off the page, so the assembly reads as a plain column. */
+		.assembly__item,
+		.assembly__item--new {
+			margin-left: 0;
+		}
+
+		.assembly__item .brick {
+			min-width: 0;
+			width: 100%;
+		}
+
+		.assembly__item--new {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.1rem;
+			width: 100%;
+		}
+
+		/* The arrow is above the brick here, so it points down the column
+		   instead of across it — still into the piece it seats. */
+		.assembly__arrow {
+			width: 44px;
+			height: 26px;
+			/* Rotating a 44px-wide arrow leaves a 44px-tall footprint in a
+			   26px-tall box, so the head would crop against the brick: the
+			   negative margins let it overhang its own slot. */
+			transform: rotate(90deg);
+			margin: 0.5rem 0 0.5rem -0.55rem;
+		}
+	}
+</style>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face{font-family:'X';src:local('Helvetica Neue')}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1440px;height:900px;overflow:hidden}
+  body{
+    background:#6B1230;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    color:#F2EDE3;
+    position:relative;
+  }
+  /* programme cover stock texture */
+  body::before{
+    content:'';position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(0deg,rgba(0,0,0,.04) 0 1px,transparent 1px 3px),
+      radial-gradient(120% 80% at 70% 10%, rgba(255,255,255,.07), transparent 60%);
+    pointer-events:none;
+  }
+  .sheet{position:absolute;inset:0;padding:42px 56px;display:flex;flex-direction:column}
+
+  /* top rail: masthead */
+  .rail{display:flex;justify-content:space-between;align-items:baseline;
+        border-bottom:3px solid #F2EDE3;padding-bottom:12px}
+  .rail .mast{font-size:15px;letter-spacing:.42em;text-transform:uppercase;font-weight:700}
+  .rail .iss{font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;
+             font-variant-numeric:tabular-nums}
+
+  /* POSITION block — the dual claim stated as a football position */
+  .position{margin-top:30px;display:flex;align-items:flex-start;gap:26px}
+  .position .no{
+    font-size:112px;line-height:.82;font-weight:800;color:#F5C518;
+    font-variant-numeric:tabular-nums;letter-spacing:-.04em;
+  }
+  .position .pos{padding-top:6px}
+  .position .lab{font-size:11px;letter-spacing:.34em;text-transform:uppercase;opacity:.72}
+  .position .val{font-size:30px;font-weight:700;letter-spacing:.02em;margin-top:5px;line-height:1.1}
+  .position .sub{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:#F5C518;margin-top:8px;font-weight:600}
+
+  /* name at cover scale, bottom-anchored */
+  .name{margin-top:auto}
+  .name h1{
+    font-size:186px;line-height:.84;font-weight:800;
+    letter-spacing:-.045em;text-transform:uppercase;
+    transform:scaleX(.9);transform-origin:left;
+  }
+  .name .meta{display:flex;gap:30px;margin-top:20px;font-size:14px;
+              letter-spacing:.2em;text-transform:uppercase;opacity:.9}
+
+  /* fixture strip: the working actions live in the cover */
+  .fix{margin-top:26px;border-top:3px solid #F2EDE3;padding-top:18px;
+       display:flex;align-items:stretch;gap:0}
+  .fix a{
+    flex:0 0 auto;padding:15px 30px;font-size:14px;font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  }
+  .fix .primary{background:#F5C518;color:#101418}
+  .fix .ghost{color:#F2EDE3;border:2px solid #F2EDE3;margin-left:14px}
+  .fix .spacer{flex:1}
+  .fix .counts{display:flex;gap:34px;align-items:center;padding-right:4px}
+  .fix .counts div{text-align:right}
+  .fix .counts b{display:block;font-size:34px;font-weight:800;color:#F5C518;
+                 font-variant-numeric:tabular-nums;line-height:1}
+  .fix .counts span{font-size:11px;letter-spacing:.24em;text-transform:uppercase;opacity:.75}
+
+  /* newsprint table panel peeking in — the section below starts as a section */
+  .panel{position:absolute;left:0;right:0;bottom:-6px;height:52px;background:#F2EDE3}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="rail">
+    <div class="mast">Francesc Pérez · Career Programme</div>
+    <div class="iss">Est. 2014 · Barcelona</div>
+  </div>
+
+  <div class="position">
+    <div class="no">2</div>
+    <div class="pos">
+      <div class="lab">Position</div>
+      <div class="val">Android&nbsp;+&nbsp;Backend</div>
+      <div class="sub">Box-to-box · Ships both halves</div>
+    </div>
+  </div>
+
+  <div class="name">
+    <h1>Francesc<br>Pérez</h1>
+    <div class="meta">
+      <span>Senior Android &amp; Backend Engineer</span>
+      <span>Barcelona</span>
+      <span>12 Seasons</span>
+    </div>
+  </div>
+
+  <div class="fix">
+    <a class="primary" href="#">Email Francesc</a>
+    <a class="ghost" href="#">Download CV</a>
+    <div class="spacer"></div>
+    <div class="counts">
+      <div><b>12</b><span>Years</span></div>
+      <div><b>500K+</b><span>Downloads</span></div>
+      <div><b>5</b><span>Mentored</span></div>
+    </div>
+  </div>
+</div>
+<div class="panel"></div>
+</body>
+</html>

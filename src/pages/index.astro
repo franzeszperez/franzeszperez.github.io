@@ -1,17 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Rail from '../components/Rail.astro';
 import Hero from '../components/Hero.astro';
 import Experience from '../components/Experience.astro';
 import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
 import Education from '../components/Education.astro';
+import Colophon from '../components/Colophon.astro';
 import { profile } from '../data/resume';
 ---
 
 <BaseLayout title={`${profile.name} — ${profile.headline}`} description={profile.summary}>
-	<Hero />
-	<Experience />
-	<Skills />
-	<Projects />
-	<Education />
+	<Rail slot="banner" />
+	<div class="sheet">
+		<Hero />
+		<Experience />
+		<Skills />
+		<Projects />
+		<Education />
+		<Colophon />
+	</div>
 </BaseLayout>

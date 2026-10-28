@@ -1,0 +1,190 @@
+---
+/**
+ * The real close. A booklet ends with the manufacturer's panel and the last
+ * chance to act — not with a sudden stop after the final section.
+ */
+import { profile } from '../data/resume';
+import { currentRole, primaryAction } from '../lib/stats';
+
+const act = primaryAction();
+---
+
+<footer class="colophon" id="contact">
+	<div class="colophon__claim">
+		<h2>Next step</h2>
+		<p class="colophon__scope">
+			Currently {currentRole.role.replace(/\s*\(Contractor\)$/, '')} at {currentRole.company}.
+			Open to senior Android and backend work, permanent or contract.
+		</p>
+	</div>
+
+	<div class="colophon__act">
+		<a
+			class="action action--primary"
+			href={act.href}
+			rel={act.external ? 'me noopener' : undefined}
+		>
+			{act.label}
+		</a>
+		<a class="action action--secondary" href="/cv.pdf" download>Download CV</a>
+	</div>
+
+	<dl class="colophon__plate">
+		<div>
+			<dt>Based in</dt>
+			<dd>{profile.location}</dd>
+		</div>
+		{
+			/* Email only appears on the plate if one is set — see resume.ts. It
+			   is not, so the plate runs location then links. */
+			profile.email && (
+				<div>
+					<dt>Email</dt>
+					<dd>
+						<a href={`mailto:${profile.email}`}>{profile.email}</a>
+					</dd>
+				</div>
+			)
+		}
+		{
+			profile.links.map((link) => (
+				<div>
+					<dt>{link.label}</dt>
+					<dd>
+						<a href={link.url} rel="me noopener">
+							{link.url.replace(/^https?:\/\/(www\.)?/, '')}
+						</a>
+					</dd>
+				</div>
+			))
+		}
+	</dl>
+</footer>
+
+<style>
+	.colophon {
+		margin-top: clamp(2rem, 5vw, calc(var(--stud) * 2));
+		padding: clamp(1.5rem, 3.4vw, calc(var(--stud) * 1.3));
+		background: var(--ink);
+		color: var(--paper);
+		border: var(--keyline) solid var(--ink);
+	}
+
+	.colophon h2 {
+		font-size: clamp(2rem, 4.4vw, 3.4rem);
+	}
+
+	.colophon__scope {
+		margin-top: 0.8rem;
+		max-width: 48ch;
+		font-size: clamp(1rem, 1.25vw, 1.1rem);
+		font-weight: 500;
+		/* Tinted from the ground's hue rather than gray: 8.9:1 on the ink. */
+		color: #b9d6e8;
+	}
+
+	.colophon__act {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 1.6rem;
+	}
+
+	.colophon__act .action {
+		min-width: 15rem;
+	}
+
+	/* On the ink panel the secondary action inverts: stock-coloured keyline
+	   on black, filling to stock on hover. */
+	.colophon__act .action--secondary {
+		background: transparent;
+		color: var(--paper);
+		border-color: var(--paper);
+	}
+
+	.colophon__act .action--secondary:hover,
+	.colophon__act .action--secondary:focus-visible {
+		background: var(--paper);
+		color: var(--ink);
+	}
+
+	.colophon__act .action:focus-visible {
+		outline-color: var(--action);
+	}
+
+	/* The manufacturer's plate: a dotted-leader list, as on the inside back
+	   cover. */
+	.colophon__plate {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+		gap: 0 2rem;
+		margin: 1.9rem 0 0;
+		padding-top: 1.2rem;
+		border-top: var(--keyline-thin) solid rgba(255, 255, 255, 0.34);
+	}
+
+	.colophon__plate > div {
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		padding: 0.46rem 0;
+		border-bottom: 1px dotted rgba(255, 255, 255, 0.36);
+	}
+
+	.colophon__plate dt {
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #b9d6e8;
+		white-space: nowrap;
+	}
+
+	.colophon__plate dd {
+		margin: 0;
+		margin-left: auto;
+		font-size: 0.88rem;
+		font-weight: 700;
+		text-align: right;
+		overflow-wrap: anywhere;
+	}
+
+	.colophon__plate a {
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+	}
+
+	.colophon__plate a:hover,
+	.colophon__plate a:focus-visible {
+		color: var(--action);
+	}
+
+	@media print {
+		.colophon {
+			background: #fff;
+			color: #000;
+			border-color: #000;
+		}
+
+		/* The download is meaningless on paper, and it was worse than
+		   meaningless: the inverted variant keeps stock-coloured text and
+		   keyline, so on white stock it printed as an invisible button. The
+		   plate below carries the reachable address either way. */
+		.colophon__act .action--secondary {
+			display: none;
+		}
+
+		.colophon__scope,
+		.colophon__plate dt {
+			color: #000;
+		}
+
+		.colophon__plate > div {
+			border-bottom-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.colophon__plate {
+			border-top-color: #000;
+		}
+	}
+</style>

@@ -15,6 +15,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Mobile browser chrome takes the booklet's own stock colour. -->
+		<meta name="theme-color" content="#1e8ac4" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 
@@ -30,7 +32,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 		<meta name="twitter:card" content="summary_large_image" />
 	</head>
 	<body>
-		<a href="#main" class="visually-hidden">Skip to content</a>
+		<a href="#main" class="skip">Skip to content</a>
+		<!-- The running head is a banner landmark outside main, so that
+		     skipping to content actually clears the navigation. -->
+		<slot name="banner" />
 		<main id="main">
 			<slot />
 		</main>

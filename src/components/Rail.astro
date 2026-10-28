@@ -1,0 +1,43 @@
+---
+/**
+ * The running head of the booklet: the mark, and the page's own contents.
+ * Chrome in the world's vocabulary, not a nav bar on the world's colour.
+ */
+import { profile, experience } from '../data/resume';
+import { careerYears } from '../lib/stats';
+
+const years = careerYears();
+---
+
+<header class="rail">
+	<span class="rail__mark">
+		{profile.name}<span class="rail__mark--long"> · Build Instructions</span>
+	</span>
+	<nav class="rail__nav" aria-label="Sections">
+		<a href="#experience">Steps</a>
+		<a href="#skills">Parts</a>
+		<a href="#projects">Alternates</a>
+		<a href="#credentials">Certification</a>
+	</nav>
+	<span class="rail__count qty">
+		{experience.length} steps · {years} yrs
+	</span>
+</header>
+
+<style>
+	.rail__count {
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 560px) {
+		/* "Build Instructions" is carried by the whole page at this width;
+		   the mark keeps the name. */
+		.rail__mark--long {
+			display: none;
+		}
+	}
+</style>
