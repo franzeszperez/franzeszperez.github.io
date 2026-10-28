@@ -1,0 +1,23 @@
+---
+import { profile } from '../data/resume';
+---
+
+<header>
+	<h1>{profile.name}</h1>
+	<p>{profile.headline}</p>
+	<p>{profile.location}</p>
+	<p>{profile.summary}</p>
+
+	<ul>
+		<li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+		{
+			profile.links.map((link) => (
+				<li>
+					<a href={link.url} rel="me noopener">
+						{link.label}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</header>

@@ -1,0 +1,18 @@
+---
+import { skills } from '../data/resume';
+---
+
+<section aria-labelledby="skills-heading">
+	<h2 id="skills-heading">Skills</h2>
+
+	<dl>
+		{
+			skills.map((group) => (
+				<div>
+					<dt>{group.category}</dt>
+					<dd>{group.items.join(' · ')}</dd>
+				</div>
+			))
+		}
+	</dl>
+</section>

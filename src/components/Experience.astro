@@ -1,0 +1,32 @@
+---
+import { experience } from '../data/resume';
+import { formatRange } from '../lib/dates';
+---
+
+<section aria-labelledby="experience-heading">
+	<h2 id="experience-heading">Experience</h2>
+
+	{
+		experience.map((job) => (
+			<article>
+				<h3>
+					{job.role} · {job.company}
+				</h3>
+				<p>
+					<time datetime={job.start}>{formatRange(job.start, job.end)}</time>
+					{' · '}
+					{job.location}
+				</p>
+				<p>{job.summary}</p>
+
+				<ul>
+					{job.highlights.map((highlight) => (
+						<li>{highlight}</li>
+					))}
+				</ul>
+
+				<p>{job.stack.join(' · ')}</p>
+			</article>
+		))
+	}
+</section>

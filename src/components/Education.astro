@@ -1,0 +1,20 @@
+---
+import { education } from '../data/resume';
+import { formatRange } from '../lib/dates';
+---
+
+<section aria-labelledby="education-heading">
+	<h2 id="education-heading">Education</h2>
+
+	{
+		education.map((entry) => (
+			<article>
+				<h3>{entry.qualification}</h3>
+				<p>{entry.institution}</p>
+				<p>
+					<time datetime={entry.start}>{formatRange(entry.start, entry.end)}</time>
+				</p>
+			</article>
+		))
+	}
+</section>
