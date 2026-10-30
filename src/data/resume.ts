@@ -162,7 +162,6 @@ export const experience: Job[] = [
 		apps: [
 			{ name: 'SXSW GO', url: "https://play.google.com/store/apps/details?id=com.xomodigital.sxswgo&hl=en" },
 			{ name: 'CES', url: "https://play.google.com/store/apps/details?id=com.cta.cestech&hl=en" },
-			{ name: 'VMware', url: "https://play.google.com/store/apps/details?id=com.vmware.explore&hl=en" },
 			{ name: 'Salesforce', url: "https://play.google.com/store/apps/details?id=com.salesforce.dreamforce&hl=en" },
 		],
 	},

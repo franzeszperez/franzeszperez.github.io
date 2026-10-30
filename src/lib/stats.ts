@@ -15,6 +15,23 @@ export const rolesNewestFirst: Job[] = [...experience].sort((a, b) =>
 export const currentRole: Job = experience.find((job) => job.end === null) ?? rolesNewestFirst[0];
 
 /**
+ * The DOM id of a role's step row, so the hero assembly can link into it.
+ *
+ * Derived from company + start rather than company alone: two stints at the
+ * same employer would otherwise collide and the second brick would jump to
+ * the first row. Both ends call this, so the link and the target can never
+ * disagree.
+ */
+export function roleAnchor(job: Job): string {
+	const slug = job.company
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-|-$/g, '');
+	return `role-${slug}-${job.start}`;
+}
+
+/**
  * Years from the earliest role's start to the latest activity, rounded down.
  *
  * Note this measures the span of the career, not the sum of each role's

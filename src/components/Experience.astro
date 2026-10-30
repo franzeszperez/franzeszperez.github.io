@@ -5,7 +5,7 @@
  * sequence still carries real information: it is the order it was built in.
  */
 import { experience } from '../data/resume';
-import { rolesNewestFirst } from '../lib/stats';
+import { rolesNewestFirst, roleAnchor } from '../lib/stats';
 import { formatRange } from '../lib/dates';
 
 const steps = rolesNewestFirst;
@@ -22,8 +22,10 @@ const total = experience.length;
 			steps.map((job, i) => {
 				const stepNo = total - i;
 				const isCurrent = job.end === null;
+				// The row's id is the hero assembly's link target, one brick per
+				// row. Both ends call roleAnchor(), so it cannot drift.
 				return (
-					<li class="step-row seats">
+					<li class="step-row seats" id={roleAnchor(job)}>
 						<div class="step-row__no">
 							<span class="step-no" aria-hidden="true">
 								{String(stepNo).padStart(2, '0')}
@@ -151,6 +153,51 @@ const total = experience.length;
 	.step-row:first-child {
 		border-top: none;
 		padding-top: 0;
+	}
+
+	/*
+	 * Arriving from a hero brick. The global scroll-padding-top already clears
+	 * the sticky rail, so this is only the acknowledgement: without it a click
+	 * on "Everis" scrolls somewhere and leaves you to work out which of five
+	 * near-identical rows you were sent to.
+	 *
+	 * It is a plate marker in the numeral gutter, in ink — red is the current
+	 * role and nothing else, and this fires on whichever row you asked for. It
+	 * fades out because it answers a question you only have for a second;
+	 * leaving it would read as permanent state.
+	 */
+	.step-row:target {
+		position: relative;
+	}
+
+	.step-row:target::before {
+		content: '';
+		position: absolute;
+		top: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
+		bottom: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
+		left: calc(var(--half-stud) * -1);
+		width: var(--keyline);
+		background: var(--ink);
+		animation: mark-row 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+	}
+
+	@keyframes mark-row {
+		0%,
+		55% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	/* Without motion the marker simply stays. An opacity fade is a transition,
+	   and dropping it outright would leave the click unacknowledged — a
+	   persistent rule beside the row you asked for is the honest fallback. */
+	@media (prefers-reduced-motion: reduce) {
+		.step-row:target::before {
+			animation: none;
+		}
 	}
 
 	.step-row__no .step-no {
