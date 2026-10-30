@@ -14,11 +14,11 @@ import {
 	careerYears,
 	partsInventory,
 	primaryAction,
+	roleAnchor,
 } from '../lib/stats';
 import { formatMonth } from '../lib/dates';
 
 const parts = partsInventory();
-const years = careerYears();
 const stepCount = experience.length;
 
 const act = primaryAction();
@@ -58,10 +58,6 @@ const claimLines = ['Android', '+ Backend'];
 					<span>{profile.headline}</span>
 					<span>{profile.location}</span>
 				</p>
-				<p class="hero__scope">
-					Both halves, one engineer: {years} years building the Android client and the
-					Kotlin backend that feeds it. Each role clicks onto the last.
-				</p>
 			</div>
 		</div>
 
@@ -70,6 +66,11 @@ const claimLines = ['Android', '+ Backend'];
 			No seat animation here: this is above the fold at load, so a
 			view()-driven range has already finished before the first scroll.
 			The motion lives on the step rows, which do enter from below.
+
+			Every brick is an in-page link to its own step row in Roles. A brick
+			already reads as a part you could pick up, so making it inert was the
+			odd choice; the anchor comes from roleAnchor() at both ends, so the
+			link and the target are derived from the same data.
 		-->
 
 		<h2 class="visually-hidden">Career assembly</h2>
@@ -85,18 +86,18 @@ const claimLines = ['Android', '+ Backend'];
 						stroke-linecap="square"></path>
 					<path d="M43 5 L62 19 L43 33 Z" fill="#101010"></path>
 				</svg>
-				<span class="brick brick--new">
+				<a class="brick brick--new assembly__link" href={`#${roleAnchor(currentRole)}`}>
 					<span class="assembly__co">{currentRole.company}</span>
 					<span class="assembly__yr">{formatMonth(currentRole.start).split(' ').at(-1)}</span>
-				</span>
+				</a>
 			</li>
 			{
 				seated.map((job, i) => (
 					<li class="assembly__item" style={`--seat: ${seated.length - 1 - i}`}>
-						<span class="brick brick--seated">
+						<a class="brick brick--seated assembly__link" href={`#${roleAnchor(job)}`}>
 							<span class="assembly__co">{job.company}</span>
 							<span class="assembly__yr">{formatMonth(job.start).split(' ').at(-1)}</span>
-						</span>
+						</a>
 					</li>
 				))
 			}
@@ -105,7 +106,7 @@ const claimLines = ['Android', '+ Backend'];
 
 	<!-- Parts inventory: the 1:1 call-out box, and where contact lives. -->
 	<aside class="callout hero__parts" aria-labelledby="parts-label">
-		<h2 class="callout__label" id="parts-label">Parts inventory</h2>
+		<h2 class="callout__label" id="parts-label">TL;DR</h2>
 		<ul class="hero__leaders">
 			{
 				parts.map((part) => (
@@ -198,6 +199,70 @@ const claimLines = ['Android', '+ Backend'];
 
 	.assembly__co {
 		flex: 1;
+	}
+
+	/*
+	 * The brick is the link. Not a link *inside* a brick: an underlined word on
+	 * a 19rem stamped part would read as a caption on the part rather than the
+	 * part being the control, and the whole plate is the obvious target.
+	 */
+	.assembly__link {
+		color: inherit;
+		text-decoration: none;
+		cursor: pointer;
+		transition:
+			border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+			background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+			transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+			box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	/* A seated brick comes up out of the ghost on hover: the keyline goes to
+	   full ink and the stock brightens. No accent is spent — red is the live
+	   part and these are not it (DESIGN.md, the Reserved Accent Rule). */
+	.assembly__item .brick--seated:hover,
+	.assembly__item .brick--seated:focus-visible {
+		border-color: var(--ink);
+		background: rgba(255, 255, 255, 0.46);
+	}
+
+	.assembly__item .brick--seated:hover::before,
+	.assembly__item .brick--seated:focus-visible::before {
+		border-color: var(--ink);
+	}
+
+	/* The arriving brick is held above the assembly plane by its offset shadow,
+	   so its hover is that part travelling toward its seat — the shadow closes
+	   as it moves. This is the booklet's own pressable-part gesture, borrowed
+	   because here it means exactly what it depicts. */
+	.assembly__item--new .brick--new:hover,
+	.assembly__item--new .brick--new:focus-visible {
+		transform: translate(3px, 3px);
+		box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.26);
+	}
+
+	.assembly__item--new .brick--new:active {
+		transform: translate(6px, 6px);
+		box-shadow: 0 0 0 rgba(0, 0, 0, 0.26);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.assembly__link {
+			transition: none;
+		}
+
+		/* The travel is the whole gesture, so it is replaced rather than
+		   dropped: the shadow still closes, the brick simply does not move. */
+		.assembly__item--new .brick--new:hover,
+		.assembly__item--new .brick--new:focus-visible,
+		.assembly__item--new .brick--new:active {
+			transform: none;
+		}
+	}
+
+	.assembly__link:focus-visible {
+		outline: var(--keyline) solid var(--ink);
+		outline-offset: 4px;
 	}
 
 	.assembly__yr {

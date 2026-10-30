@@ -5,7 +5,7 @@
  * sequence still carries real information: it is the order it was built in.
  */
 import { experience } from '../data/resume';
-import { rolesNewestFirst } from '../lib/stats';
+import { rolesNewestFirst, roleAnchor } from '../lib/stats';
 import { formatRange } from '../lib/dates';
 
 const steps = rolesNewestFirst;
@@ -13,10 +13,7 @@ const total = experience.length;
 ---
 
 <section class="section" id="experience" aria-labelledby="experience-label">
-	<h2 id="experience-label">Assembly steps</h2>
-	<p class="section__intro">
-		Each step is a role, numbered in the order it was built. Step {total} is current.
-	</p>
+	<h2 id="experience-label">Roles</h2>
 
 	<!-- reversed: the visible numerals count 05 down to 01, so the list's own
 	     numbering should agree with what is drawn. -->
@@ -25,8 +22,10 @@ const total = experience.length;
 			steps.map((job, i) => {
 				const stepNo = total - i;
 				const isCurrent = job.end === null;
+				// The row's id is the hero assembly's link target, one brick per
+				// row. Both ends call roleAnchor(), so it cannot drift.
 				return (
-					<li class="step-row seats">
+					<li class="step-row seats" id={roleAnchor(job)}>
 						<div class="step-row__no">
 							<span class="step-no" aria-hidden="true">
 								{String(stepNo).padStart(2, '0')}
@@ -54,41 +53,67 @@ const total = experience.length;
 									<li>{item}</li>
 								))}
 							</ul>
+						</div>
 
-							<div class="step-row__panels">
-								<div
-									class={`callout step-row__panel step-row__panel--parts${isCurrent ? ' step-row__panel--live' : ''}`}
-								>
-									<h4 class="callout__label">Parts used</h4>
-									<ul class="chips">
-										{job.stack.map((tech) => (
-											<li class="chip">{tech}</li>
-										))}
+						<!--
+							The spec column. A sibling of the body rather than a child of
+							it, so it can take the third grid track and sit beside the
+							prose: the prose is capped at its measure, and without this
+							the whole right half of the row was empty stock.
+						-->
+						<div class="step-row__panels">
+							<div
+								class={`callout step-row__panel step-row__panel--parts${isCurrent ? ' step-row__panel--live' : ''}`}
+							>
+								<h4 class="callout__label">Skills used</h4>
+								<ul class="chips">
+									{job.stack.map((tech) => (
+										<li class="chip">{tech}</li>
+									))}
+								</ul>
+							</div>
+
+							{job.apps && job.apps.length > 0 && (
+								<div class="callout step-row__panel step-row__panel--shipped">
+									<h4 class="callout__label">Shipped</h4>
+									<ul class="apps">
+										{job.apps.map((app) => {
+											/* The tile and the name are one target, so the whole
+											   thing is clickable rather than just the words. */
+											const Tag = app.url ? 'a' : 'div';
+											return (
+												<li class="app">
+													<Tag
+														class="app__link"
+														{...(app.url ? { href: app.url, rel: 'noopener' } : {})}
+													>
+														<span class="app__tile">
+															{app.logo ? (
+																<img
+																	class="app__mark"
+																	src={`/logos/${app.logo}`}
+																	alt=""
+																	width="44"
+																	height="44"
+																	loading="lazy"
+																	decoding="async"
+																/>
+															) : (
+																/* No logo yet: a drawn monogram keeps the row
+																   on the grid instead of collapsing a tile. */
+																<span class="app__monogram" aria-hidden="true">
+																	{app.name.slice(0, 2)}
+																</span>
+															)}
+														</span>
+														<span class="app__name">{app.name}</span>
+													</Tag>
+												</li>
+											);
+										})}
 									</ul>
 								</div>
-
-								{job.apps && job.apps.length > 0 && (
-									<div class="callout step-row__panel step-row__panel--shipped">
-										<h4 class="callout__label">Shipped</h4>
-										<ul class="step-row__apps">
-											{job.apps.map((app) => (
-												<li class="leader">
-													<span class="leader__name">
-														{app.url ? (
-															<a href={app.url} rel="noopener">
-																{app.name}
-															</a>
-														) : (
-															app.name
-														)}
-													</span>
-													<span class="leader__fill" aria-hidden="true" />
-												</li>
-											))}
-										</ul>
-									</div>
-								)}
-							</div>
+							)}
 						</div>
 					</li>
 				);
@@ -104,9 +129,22 @@ const total = experience.length;
 		margin-top: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.2));
 	}
 
+	/*
+	 * Three tracks: the numeral, the prose, and the spec panels beside it.
+	 *
+	 * The prose track is sized to the measure it is already capped at —
+	 * 13.5 stud is 540px, which is where calc(59ch + 1.5rem) lands at this
+	 * font size. Giving the text a track its own width rather than 1fr is the
+	 * whole point: a 1fr prose column on a 1360px sheet left ~565px of empty
+	 * stock on every line, because the measure cap stops the text long before
+	 * the column ends. The panels now spend that width instead.
+	 */
 	.step-row {
 		display: grid;
-		grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+		grid-template-columns:
+			minmax(0, 7rem)
+			minmax(0, calc(var(--stud) * 13.5))
+			minmax(0, 1fr);
 		gap: clamp(1rem, 2.4vw, 2rem);
 		padding-block: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
 		border-top: var(--keyline-thin) dashed var(--ghost-line);
@@ -115,6 +153,51 @@ const total = experience.length;
 	.step-row:first-child {
 		border-top: none;
 		padding-top: 0;
+	}
+
+	/*
+	 * Arriving from a hero brick. The global scroll-padding-top already clears
+	 * the sticky rail, so this is only the acknowledgement: without it a click
+	 * on "Everis" scrolls somewhere and leaves you to work out which of five
+	 * near-identical rows you were sent to.
+	 *
+	 * It is a plate marker in the numeral gutter, in ink — red is the current
+	 * role and nothing else, and this fires on whichever row you asked for. It
+	 * fades out because it answers a question you only have for a second;
+	 * leaving it would read as permanent state.
+	 */
+	.step-row:target {
+		position: relative;
+	}
+
+	.step-row:target::before {
+		content: '';
+		position: absolute;
+		top: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
+		bottom: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
+		left: calc(var(--half-stud) * -1);
+		width: var(--keyline);
+		background: var(--ink);
+		animation: mark-row 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+	}
+
+	@keyframes mark-row {
+		0%,
+		55% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	/* Without motion the marker simply stays. An opacity fade is a transition,
+	   and dropping it outright would leave the click unacknowledged — a
+	   persistent rule beside the row you asked for is the honest fallback. */
+	@media (prefers-reduced-motion: reduce) {
+		.step-row:target::before {
+			animation: none;
+		}
 	}
 
 	.step-row__no .step-no {
@@ -199,34 +282,56 @@ const total = experience.length;
 		outline: 2.5px solid var(--ink);
 	}
 
+	/* In the third track the panels stack rather than sit side by side: the
+	   track is narrower than the two of them in a row, and stacking lets each
+	   one size to its own content. They align with the company name rather
+	   than the row top, so the heading still leads the row on its own. */
 	.step-row__panels {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: stretch;
 		gap: 0.9rem;
-		margin-top: 1.4rem;
-		max-width: var(--measure);
+		/* Clears the h3's cap-height so the first panel's label sits on the
+		   same line as the role, not the company. */
+		margin-top: 0.4rem;
 	}
 
-	/* Parts takes the room it needs for its chips; shipped sizes to its
-	   list rather than stretching to match. */
 	.step-row__panel {
-		flex: 1 1 auto;
 		min-width: 0;
 		padding: 1rem 1.1rem;
 	}
 
-	.step-row__panel--parts {
-		flex: 2 1 22rem;
-	}
-
-	.step-row__panel--shipped {
-		flex: 1 1 11rem;
-		max-width: 20rem;
-	}
-
 	.step-row__panel--live {
 		border-color: var(--new);
+	}
+
+	/*
+	 * Below the three-column threshold the panels drop back under the prose,
+	 * where they read side by side again as they did before. Kept in sync with
+	 * the grid change in the 1100px query.
+	 */
+	@media (max-width: 1100px) {
+		.step-row__panels {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: flex-start;
+			margin-top: 1.4rem;
+			max-width: var(--measure);
+		}
+
+		.step-row__panel {
+			flex: 1 1 auto;
+		}
+
+		.step-row__panel--parts {
+			flex: 2 1 22rem;
+		}
+
+		/* Wider basis than the old text list needed, and no max-width: the tile
+		   grid wants room for at least three plates per row before it wraps. */
+		.step-row__panel--shipped {
+			flex: 1 1 16rem;
+		}
 	}
 
 	.chips {
@@ -246,24 +351,154 @@ const total = experience.length;
 		letter-spacing: 0.04em;
 	}
 
-	.step-row__apps {
-		margin-top: 0.7rem;
+	/*
+	 * Shipped apps as marks rather than a name list.
+	 *
+	 * The logos are ink monochrome, not the full-colour store icons: the
+	 * palette is spent on two accents (see DESIGN.md), and eight gradient
+	 * rounded-squares would break both that and the no-rounded-shapes rule.
+	 * `npm run logos` does the flattening — scripts/logos.mjs.
+	 *
+	 * A wrapping row of fixed-size plates, not a stretch grid. An `auto-fit`
+	 * grid with `1fr` tracks looks right at four apps and fails at one: the
+	 * lone Fanatics tile stretched to the full 489px panel. A plate is a
+	 * physical size — 2.2 stud — so it stays that size whatever the count, and
+	 * the row simply wraps when it runs out of width.
+	 */
+	.apps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem 0.7rem;
+		margin-top: 0.9rem;
 	}
 
-	.step-row__apps a {
-		text-decoration-thickness: 2px;
-		text-underline-offset: 3px;
+	.app {
+		width: calc(var(--stud) * 2.2);
 	}
 
-	.step-row__apps a:hover,
-	.step-row__apps a:focus-visible {
+	.app__link {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.4rem;
+		text-align: center;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	/* A 1:1 plate holding the mark. Square corners and a 2px keyline: this is
+	   a part in a tray, not an app icon on a home screen. */
+	.app__tile {
+		display: grid;
+		place-items: center;
+		width: 100%;
+		aspect-ratio: 1;
+		border: var(--keyline-thin) solid var(--ink);
+		background: var(--paper);
+		transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.app__mark {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		/* Mix into the tile rather than sitting on it: any residual off-white
+		   from the source icon's padding disappears into the paper. */
+		mix-blend-mode: multiply;
+	}
+
+	/* The no-logo fallback. Two letters, same plate, so an app without a mark
+	   still reads as a part rather than a gap. */
+	.app__monogram {
+		font-size: 1.05rem;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	.app__name {
+		font-size: 0.74rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		line-height: 1.25;
+		text-transform: uppercase;
+		/* The name is the label under the plate; it wraps rather than
+		   truncating, because "Invoice Reporter" must stay readable. */
+		text-wrap: balance;
+	}
+
+	/* Red on hover is sanctioned for app lists — it reads as "this is the live
+	   part" (DESIGN.md, Arriving Red). */
+	.app__link:hover .app__tile,
+	.app__link:focus-visible .app__tile {
+		border-color: var(--new);
+	}
+
+	.app__link:hover .app__name,
+	.app__link:focus-visible .app__name {
 		color: var(--new);
+	}
+
+	/* The whole tile is the target, so the default text-shaped focus ring would
+	   sit oddly; the ring goes on the plate instead. */
+	.app__link:focus-visible {
+		outline: none;
+	}
+
+	.app__link:focus-visible .app__tile {
+		outline: var(--keyline) solid var(--ink);
+		outline-offset: 3px;
+	}
+
+	/*
+	 * Below this the third track would squeeze the prose under its measure, so
+	 * the row folds back to numeral + body and the panels rejoin the body
+	 * column beneath the highlights — the layout this section had before.
+	 */
+	@media (max-width: 1100px) {
+		.step-row {
+			grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+		}
+
+		.step-row__panels {
+			/* Second column, under the body: the numeral track stays empty so
+			   the panels keep the prose's left edge. */
+			grid-column: 2;
+		}
+	}
+
+	/*
+	 * On paper the marks are already ink on white, so they need no treatment —
+	 * but blend modes are unreliable across print engines and would risk the
+	 * tile printing as a grey block. Printing the image plainly is safe because
+	 * the source is monochrome to begin with.
+	 */
+	@media print {
+		.app__mark {
+			mix-blend-mode: normal;
+		}
+
+		.app__tile {
+			border-color: #000;
+		}
+
+		/* Force the marks to print: browsers drop background images by default,
+		   and these are content, not decoration. */
+		.apps {
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
+		}
 	}
 
 	@media (max-width: 720px) {
 		.step-row {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 0.4rem;
+		}
+
+		.step-row__panels {
+			grid-column: 1;
 		}
 
 		.step-row__no .step-no {
