@@ -24,6 +24,7 @@ versions. It is pinned in `package.json` under `engines`.
 | `npm run check`   | Typecheck `.astro` and `.ts` — **run before pushing** |
 | `npm run build`   | Production build into `dist/`                         |
 | `npm run preview` | Serve the real `dist/` build locally                  |
+| `npm run og`      | Regenerate `public/og.png`, the link-preview card      |
 
 ---
 
@@ -39,6 +40,11 @@ Quantities are *derived*, not written down: `src/lib/stats.ts` computes the year
 of experience, the number of roles, the apps-shipped count and the longest tenure
 from the data itself. Add a job and the "Parts inventory" box updates on its own.
 Never type those numbers in by hand — they would drift.
+
+The share card follows the same rule: `npm run og` reads `resume.ts` and renders
+`public/og.png`, so the name, headline and counts on the preview image cannot
+disagree with the page. It is the one derived artefact that is *committed* rather
+than built on demand, because scrapers fetch it as a static file.
 
 ---
 
@@ -56,7 +62,7 @@ Never type those numbers in by hand — they would drift.
 | Add or change a job          | `experience` in `src/data/resume.ts`                     |
 | Add a skill                  | `skills` in `src/data/resume.ts`                         |
 | Change the headline or intro | `profile` in `src/data/resume.ts`                         |
-| Add the CV download          | drop a PDF at `public/cv.pdf` (see *Known gaps*)          |
+| Change the share preview     | `npm run og` after editing `profile` — commit the PNG     |
 | Change a colour or spacing   | `src/styles/global.css` — read `DESIGN.md` first          |
 | Move to a custom domain      | `site` in `astro.config.mjs`, plus DNS (see *Deploying*)  |
 
@@ -74,7 +80,8 @@ src/
                         Projects, Education, Colophon
   pages/index.astro     Composes the sections
   styles/global.css     The design system — tokens, bricks, print styles
-public/                 Served as-is at the site root (favicon, cv.pdf)
+scripts/og-image.mjs    Renders the share card from resume.ts (`npm run og`)
+public/                 Served as-is at the site root (favicon, cv.pdf, og.png)
 .github/workflows/      The deploy pipeline
 ```
 
@@ -136,12 +143,77 @@ Identity is set **repo-locally** (in `.git/config`, not globally) so it cannot
 leak into work repos:
 
 ```bash
-git config --local user.name  "franzeszperez"
-git config --local user.email "45601022+franzeszperez@users.noreply.github.com"
+git config --local user.name       "franzeszperez"
+git config --local user.email      "45601022+franzeszperez@users.noreply.github.com"
+git config --local user.signingkey "$HOME/.ssh/id_ed25519_personal.pub"
+git config --local gpg.format      ssh
+git config --local commit.gpgsign  true
+git config --local tag.gpgsign     true
 ```
 
-On a fresh clone, re-apply those two lines — a global config would otherwise
-author commits with a work address.
+On a fresh clone, re-apply all six — the global config points at the **work**
+identity and the work signing key, so without these a commit here is authored
+*and signed* as the wrong person.
+
+### Commit signing
+
+Commits are signed with the personal SSH key. For GitHub to show a **Verified**
+badge, three things have to agree — and a mismatch in any one of them silently
+downgrades the badge to "Unverified" rather than erroring:
+
+1. `user.signingkey` — the **personal** key, set repo-locally as above.
+2. `~/.ssh/allowed_signers` — which keys are trusted, for *local* verification.
+   It is pointed at globally:
+
+   ```bash
+   git config --global gpg.ssh.allowedSignersFile "$HOME/.ssh/allowed_signers"
+   ```
+
+   Each line is `<email> <key-type> <key>`, and **the email must match the
+   commit's author email** — the noreply alias, not a real address. This file is
+   verification-only; it never decides which key signs, so keeping it global and
+   listing both the personal and work keys is safe.
+
+3. The key is registered on GitHub as a **signing** key. See below — this is a
+   separate list from authentication keys, and adding it to one does not add it
+   to the other.
+
+To check locally: `git log --show-signature -1`, or `git log --format='%h %G?'`
+for a quick column — `G` is good, `N` is unsigned. If git errors with
+`gpg.ssh.allowedSignersFile needs to be configured`, step 2 is missing; the
+commits themselves are fine, only verification is unconfigured.
+
+### What has to be done on GitHub
+
+Local config gets you a signature; only GitHub can turn it into a **Verified**
+badge, and it needs the public key on the `franzeszperez` account:
+
+1. Copy the personal public key:
+
+   ```bash
+   pbcopy < ~/.ssh/id_ed25519_personal.pub
+   ```
+
+2. Go to **[Settings → SSH and GPG keys](https://github.com/settings/keys)**,
+   signed in as `franzeszperez` (not the work account).
+3. Click **New SSH key**, and set **Key type** to **Signing Key**. This is the
+   part that is easy to miss: the page has two lists, *Authentication keys* and
+   *Signing keys*, and the dropdown defaults to Authentication. The same key can
+   be in both, but each has to be added separately — pushing works with the
+   authentication entry alone, so a missing signing entry shows up only as a
+   permanently "Unverified" badge.
+4. Paste, give it a title, save.
+5. Push a commit and check the commit list — it should now read **Verified**.
+
+Two things that make a correct key still show Unverified:
+
+- **The author email is not on the account.** GitHub verifies the signature
+  *and* that the author address belongs to you. The noreply alias
+  `45601022+…@users.noreply.github.com` always qualifies, which is the other
+  reason this repo uses it.
+- **Vigilant mode.** If **Settings → SSH and GPG keys → Vigilant mode** is on,
+  every unsigned commit is flagged **Unverified** rather than left blank. It is
+  worth enabling once signing works, and misleading before that.
 
 ---
 
@@ -201,13 +273,17 @@ contact details that the site deliberately omits.
 
 ## Known gaps
 
-- **`public/cv.pdf` does not exist**, so both "Download CV" buttons 404. Add the
-  PDF to fix. Use a version without the phone number and street address, for
-  consistency with the above.
-- **No `og:image`**, so links shared on LinkedIn or Slack have no preview image.
-- **Commit signing is configured but unverified** — `gpg.ssh.allowedSignersFile`
-  is unset locally, and the signing key needs adding to GitHub as a *signing* key
-  (separate list from authentication keys) for the "Verified" badge.
+- **The signing key is not yet on GitHub.** Local signing and local verification
+  both work now, but the **Verified** badge needs the public key added to the
+  account as a *signing* key — see *What has to be done on GitHub*. This is the
+  only open item that cannot be done from the command line.
+- **`og:image` is cached by every scraper.** The card is live, but LinkedIn in
+  particular holds its copy for weeks. After changing it, re-scrape the URL in
+  the [Post Inspector](https://www.linkedin.com/post-inspector/) — otherwise a
+  shared link keeps showing the old image.
+- **`npm run og` needs Chrome installed**, and is not part of `npm run build`:
+  the deploy runner has no browser, so the PNG is committed rather than
+  generated in CI. Regenerate and commit it by hand after editing `profile`.
 - **Education entries carry no dates**, and all app-store URLs in `resume.ts` are
   `null` — the links render as plain text until real URLs are added.
 - **The Fickl and Eventbase date ranges overlap** in the source resume. `careerYears()`

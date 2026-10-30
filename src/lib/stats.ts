@@ -110,10 +110,9 @@ export interface Part {
 export function partsInventory(): Part[] {
 	return [
 		{ name: 'Years shipping', qty: `${careerYears()}` },
-		{ name: 'Roles assembled', qty: `${experience.length}` },
-		{ name: 'Apps shipped', qty: `${shippedApps().length}` },
+		{ name: 'Roles', qty: `${experience.length}` },
+		{ name: 'Apps shipped', qty: `${shippedApps().length}+` },
 		{ name: 'Longest tenure', qty: `${longestTenureYears()} yr` },
 		{ name: 'Engineers mentored', qty: '5' },
-		{ name: 'Libraries upgraded', qty: '20+' },
 	];
 }

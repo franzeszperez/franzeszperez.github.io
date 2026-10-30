@@ -21,7 +21,7 @@ import { formatRange } from '../lib/dates';
 					<p class="stamp__meta">
 						{entry.location && <span>{entry.location}</span>}
 						{entry.start && (
-							<time datetime={entry.start}>{formatRange(entry.start, entry.end ?? null)}</time>
+							<time datetime={entry.start}>{entry.start}-{entry.end}</time>
 						)}
 					</p>
 				</article>

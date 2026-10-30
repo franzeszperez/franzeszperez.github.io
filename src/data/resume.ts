@@ -65,7 +65,6 @@ export interface Education {
 	institution: string;
 	qualification: string;
 	location?: string;
-	/** Optional — your resume lists no dates for these. */
 	start?: string;
 	end?: string | null;
 }
@@ -121,7 +120,7 @@ export const experience: Job[] = [
 			'Redis',
 			'Android SDK',
 		],
-		apps: [{ name: 'Fanatics App', url: null }],
+		apps: [{ name: 'Fanatics App', url: "https://play.google.com/store/apps/details?id=com.fanatics" }],
 	},
 	{
 		company: 'Eventbase',
@@ -152,10 +151,10 @@ export const experience: Job[] = [
 			'Jenkins',
 		],
 		apps: [
-			{ name: 'SXSW GO', url: null },
-			{ name: 'CES', url: null },
-			{ name: 'VMware', url: null },
-			{ name: 'Salesforce', url: null },
+			{ name: 'SXSW GO', url: "https://play.google.com/store/apps/details?id=com.xomodigital.sxswgo&hl=en" },
+			{ name: 'CES', url: "https://play.google.com/store/apps/details?id=com.cta.cestech&hl=en" },
+			{ name: 'VMware', url: "https://play.google.com/store/apps/details?id=com.vmware.explore&hl=en" },
+			{ name: 'Salesforce', url: "https://play.google.com/store/apps/details?id=com.salesforce.dreamforce&hl=en" },
 		],
 	},
 	{
@@ -188,9 +187,9 @@ export const experience: Job[] = [
 		],
 		stack: ['Java', 'Kotlin', 'MVP', 'Retrofit', 'RxJava', 'GSON', 'Mockito', 'MLKit'],
 		apps: [
-			{ name: 'Oysho', url: null },
-			{ name: 'Privalia', url: null },
-			{ name: 'Invoice Reporter', url: null },
+			{ name: 'Oysho', url: "https://play.google.com/store/apps/details?id=com.inditex.oysho&hl=en" },
+			{ name: 'Privalia', url: "https://play.google.com/store/apps/details?id=com.privalia.privalia&hl=en" },
+			{ name: 'Invoice Reporter', url: "https://github.com/franzeszperez/invoicereporter" },
 		],
 	},
 	{
@@ -256,14 +255,18 @@ export const education: Education[] = [
 		institution: 'Valencian International University',
 		qualification: "Master's Degree in Artificial Intelligence",
 		location: 'Valencia, Spain',
+		start: '2018',
+		end: '2019',
 	},
 	{
 		institution: 'Polytechnic University of Catalonia',
 		qualification: "Bachelor's Degree in Telecommunications Engineering",
 		location: 'Barcelona, Spain',
+		start: '2011',
+		end: '2017',
 	},
 ];
 
 export const certifications: Certification[] = [
-	{ name: 'Certified Scrum Master (CSM)', issuer: 'Scrum Alliance' },
+	{ name: 'Certified Scrum Master (CSM)', issuer: 'Scrum Alliance', year: '2023' },
 ];

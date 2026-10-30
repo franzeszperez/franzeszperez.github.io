@@ -18,7 +18,6 @@ import {
 import { formatMonth } from '../lib/dates';
 
 const parts = partsInventory();
-const years = careerYears();
 const stepCount = experience.length;
 
 const act = primaryAction();
@@ -57,10 +56,6 @@ const claimLines = ['Android', '+ Backend'];
 				<p class="step__meta">
 					<span>{profile.headline}</span>
 					<span>{profile.location}</span>
-				</p>
-				<p class="hero__scope">
-					Both halves, one engineer: {years} years building the Android client and the
-					Kotlin backend that feeds it. Each role clicks onto the last.
 				</p>
 			</div>
 		</div>
@@ -105,7 +100,7 @@ const claimLines = ['Android', '+ Backend'];
 
 	<!-- Parts inventory: the 1:1 call-out box, and where contact lives. -->
 	<aside class="callout hero__parts" aria-labelledby="parts-label">
-		<h2 class="callout__label" id="parts-label">Parts inventory</h2>
+		<h2 class="callout__label" id="parts-label">TL;DR</h2>
 		<ul class="hero__leaders">
 			{
 				parts.map((part) => (

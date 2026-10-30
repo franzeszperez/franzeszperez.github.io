@@ -13,10 +13,7 @@ const total = experience.length;
 ---
 
 <section class="section" id="experience" aria-labelledby="experience-label">
-	<h2 id="experience-label">Assembly steps</h2>
-	<p class="section__intro">
-		Each step is a role, numbered in the order it was built. Step {total} is current.
-	</p>
+	<h2 id="experience-label">Roles</h2>
 
 	<!-- reversed: the visible numerals count 05 down to 01, so the list's own
 	     numbering should agree with what is drawn. -->
@@ -54,41 +51,47 @@ const total = experience.length;
 									<li>{item}</li>
 								))}
 							</ul>
+						</div>
 
-							<div class="step-row__panels">
-								<div
-									class={`callout step-row__panel step-row__panel--parts${isCurrent ? ' step-row__panel--live' : ''}`}
-								>
-									<h4 class="callout__label">Parts used</h4>
-									<ul class="chips">
-										{job.stack.map((tech) => (
-											<li class="chip">{tech}</li>
+						<!--
+							The spec column. A sibling of the body rather than a child of
+							it, so it can take the third grid track and sit beside the
+							prose: the prose is capped at its measure, and without this
+							the whole right half of the row was empty stock.
+						-->
+						<div class="step-row__panels">
+							<div
+								class={`callout step-row__panel step-row__panel--parts${isCurrent ? ' step-row__panel--live' : ''}`}
+							>
+								<h4 class="callout__label">Skills used</h4>
+								<ul class="chips">
+									{job.stack.map((tech) => (
+										<li class="chip">{tech}</li>
+									))}
+								</ul>
+							</div>
+
+							{job.apps && job.apps.length > 0 && (
+								<div class="callout step-row__panel step-row__panel--shipped">
+									<h4 class="callout__label">Shipped</h4>
+									<ul class="step-row__apps">
+										{job.apps.map((app) => (
+											<li class="leader">
+												<span class="leader__name">
+													{app.url ? (
+														<a href={app.url} rel="noopener">
+															{app.name}
+														</a>
+													) : (
+														app.name
+													)}
+												</span>
+												<span class="leader__fill" aria-hidden="true" />
+											</li>
 										))}
 									</ul>
 								</div>
-
-								{job.apps && job.apps.length > 0 && (
-									<div class="callout step-row__panel step-row__panel--shipped">
-										<h4 class="callout__label">Shipped</h4>
-										<ul class="step-row__apps">
-											{job.apps.map((app) => (
-												<li class="leader">
-													<span class="leader__name">
-														{app.url ? (
-															<a href={app.url} rel="noopener">
-																{app.name}
-															</a>
-														) : (
-															app.name
-														)}
-													</span>
-													<span class="leader__fill" aria-hidden="true" />
-												</li>
-											))}
-										</ul>
-									</div>
-								)}
-							</div>
+							)}
 						</div>
 					</li>
 				);
@@ -104,9 +107,22 @@ const total = experience.length;
 		margin-top: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.2));
 	}
 
+	/*
+	 * Three tracks: the numeral, the prose, and the spec panels beside it.
+	 *
+	 * The prose track is sized to the measure it is already capped at —
+	 * 13.5 stud is 540px, which is where calc(59ch + 1.5rem) lands at this
+	 * font size. Giving the text a track its own width rather than 1fr is the
+	 * whole point: a 1fr prose column on a 1360px sheet left ~565px of empty
+	 * stock on every line, because the measure cap stops the text long before
+	 * the column ends. The panels now spend that width instead.
+	 */
 	.step-row {
 		display: grid;
-		grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+		grid-template-columns:
+			minmax(0, 7rem)
+			minmax(0, calc(var(--stud) * 13.5))
+			minmax(0, 1fr);
 		gap: clamp(1rem, 2.4vw, 2rem);
 		padding-block: clamp(1.6rem, 3.4vw, calc(var(--stud) * 1.1));
 		border-top: var(--keyline-thin) dashed var(--ghost-line);
@@ -199,34 +215,55 @@ const total = experience.length;
 		outline: 2.5px solid var(--ink);
 	}
 
+	/* In the third track the panels stack rather than sit side by side: the
+	   track is narrower than the two of them in a row, and stacking lets each
+	   one size to its own content. They align with the company name rather
+	   than the row top, so the heading still leads the row on its own. */
 	.step-row__panels {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: stretch;
 		gap: 0.9rem;
-		margin-top: 1.4rem;
-		max-width: var(--measure);
+		/* Clears the h3's cap-height so the first panel's label sits on the
+		   same line as the role, not the company. */
+		margin-top: 0.4rem;
 	}
 
-	/* Parts takes the room it needs for its chips; shipped sizes to its
-	   list rather than stretching to match. */
 	.step-row__panel {
-		flex: 1 1 auto;
 		min-width: 0;
 		padding: 1rem 1.1rem;
 	}
 
-	.step-row__panel--parts {
-		flex: 2 1 22rem;
-	}
-
-	.step-row__panel--shipped {
-		flex: 1 1 11rem;
-		max-width: 20rem;
-	}
-
 	.step-row__panel--live {
 		border-color: var(--new);
+	}
+
+	/*
+	 * Below the three-column threshold the panels drop back under the prose,
+	 * where they read side by side again as they did before. Kept in sync with
+	 * the grid change in the 1100px query.
+	 */
+	@media (max-width: 1100px) {
+		.step-row__panels {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: flex-start;
+			margin-top: 1.4rem;
+			max-width: var(--measure);
+		}
+
+		.step-row__panel {
+			flex: 1 1 auto;
+		}
+
+		.step-row__panel--parts {
+			flex: 2 1 22rem;
+		}
+
+		.step-row__panel--shipped {
+			flex: 1 1 11rem;
+			max-width: 20rem;
+		}
 	}
 
 	.chips {
@@ -260,10 +297,31 @@ const total = experience.length;
 		color: var(--new);
 	}
 
+	/*
+	 * Below this the third track would squeeze the prose under its measure, so
+	 * the row folds back to numeral + body and the panels rejoin the body
+	 * column beneath the highlights — the layout this section had before.
+	 */
+	@media (max-width: 1100px) {
+		.step-row {
+			grid-template-columns: minmax(0, 7rem) minmax(0, 1fr);
+		}
+
+		.step-row__panels {
+			/* Second column, under the body: the numeral track stays empty so
+			   the panels keep the prose's left edge. */
+			grid-column: 2;
+		}
+	}
+
 	@media (max-width: 720px) {
 		.step-row {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 0.4rem;
+		}
+
+		.step-row__panels {
+			grid-column: 1;
 		}
 
 		.step-row__no .step-no {
