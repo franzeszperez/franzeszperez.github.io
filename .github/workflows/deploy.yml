@@ -1,0 +1,63 @@
+# Build the site and publish it to GitHub Pages.
+#
+# This runs on GitHub's machines, not yours: every push to main rebuilds the
+# site and replaces what is live. Nothing is uploaded by hand, and `dist/`
+# stays gitignored — the built output is never committed, only generated.
+name: Deploy to GitHub Pages
+
+on:
+  # Every push to main publishes. This is the whole deploy process.
+  push:
+    branches: [main]
+  # And a button in the Actions tab, for re-publishing without a code change.
+  workflow_dispatch:
+
+# Least privilege: the job needs to read the repo and write a Pages
+# deployment, and nothing else. `id-token` is what Pages uses to verify the
+# upload came from this workflow.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If two pushes land close together, let the newer one finish rather than
+# cancelling it — a half-finished deploy is worse than a slightly stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          # Matches the `engines.node` floor in package.json.
+          node-version: 22
+          cache: npm
+
+      # `npm ci` installs the exact versions in package-lock.json, so the
+      # deploy builds what was tested rather than resolving newer packages.
+      - run: npm ci
+
+      # Typecheck before publishing. A broken build should fail here, loudly,
+      # instead of silently shipping.
+      - run: npm run check
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
