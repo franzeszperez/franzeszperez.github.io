@@ -30,6 +30,15 @@ export interface Link {
 export interface App {
 	name: string;
 	url: string | null;
+	/**
+	 * Filename of the app's mark inside `public/logos/`, e.g. `'ces.png'`.
+	 *
+	 * Optional: an app with no logo falls back to a drawn monogram tile, so the
+	 * row never renders a broken image or an empty box. Logos are ink
+	 * monochrome, not the full-colour store icon — `npm run logos` converts
+	 * them. See scripts/logos.mjs and DESIGN.md on the two-accent palette.
+	 */
+	logo?: string;
 }
 
 export interface Job {
