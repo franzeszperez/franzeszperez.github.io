@@ -11,7 +11,6 @@ import { profile, experience } from '../data/resume';
 import {
 	currentRole,
 	rolesNewestFirst,
-	careerYears,
 	partsInventory,
 	primaryAction,
 	roleAnchor,
@@ -72,20 +71,8 @@ const claimLines = ['Android', '+ Backend'];
 			odd choice; the anchor comes from roleAnchor() at both ends, so the
 			link and the target are derived from the same data.
 		-->
-
-		<h2 class="visually-hidden">Career assembly</h2>
 		<ol class="assembly">
 			<li class="assembly__item assembly__item--new">
-				<svg class="assembly__arrow" viewBox="0 0 64 38" aria-hidden="true" focusable="false">
-					<path
-						d="M3 19 H46"
-						fill="none"
-						stroke="#101010"
-						stroke-width="5"
-						stroke-dasharray="9 7"
-						stroke-linecap="square"></path>
-					<path d="M43 5 L62 19 L43 33 Z" fill="#101010"></path>
-				</svg>
 				<a class="brick brick--new assembly__link" href={`#${roleAnchor(currentRole)}`}>
 					<span class="assembly__co">{currentRole.company}</span>
 					<span class="assembly__yr">{formatMonth(currentRole.start).split(' ').at(-1)}</span>

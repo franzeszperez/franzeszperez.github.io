@@ -12,7 +12,6 @@
     "preview": "astro preview",
     "check": "astro check",
     "og": "node --import ./scripts/register-hooks.mjs scripts/og-image.mjs",
-    "logos": "node scripts/logos.mjs",
     "astro": "astro"
   },
   "dependencies": {

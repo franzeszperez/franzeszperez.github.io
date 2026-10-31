@@ -76,41 +76,18 @@ const total = experience.length;
 							{job.apps && job.apps.length > 0 && (
 								<div class="callout step-row__panel step-row__panel--shipped">
 									<h4 class="callout__label">Shipped</h4>
-									<ul class="apps">
-										{job.apps.map((app) => {
-											/* The tile and the name are one target, so the whole
-											   thing is clickable rather than just the words. */
-											const Tag = app.url ? 'a' : 'div';
-											return (
-												<li class="app">
-													<Tag
-														class="app__link"
-														{...(app.url ? { href: app.url, rel: 'noopener' } : {})}
-													>
-														<span class="app__tile">
-															{app.logo ? (
-																<img
-																	class="app__mark"
-																	src={`/logos/${app.logo}`}
-																	alt=""
-																	width="44"
-																	height="44"
-																	loading="lazy"
-																	decoding="async"
-																/>
-															) : (
-																/* No logo yet: a drawn monogram keeps the row
-																   on the grid instead of collapsing a tile. */
-																<span class="app__monogram" aria-hidden="true">
-																	{app.name.slice(0, 2)}
-																</span>
-															)}
-														</span>
-														<span class="app__name">{app.name}</span>
-													</Tag>
-												</li>
-											);
-										})}
+									<ul class="chips">
+										{job.apps.map((app) => (
+											<li class="chip chip--app">
+												{app.url ? (
+													<a href={app.url} rel="noopener">
+														{app.name}
+													</a>
+												) : (
+													app.name
+												)}
+											</li>
+										))}
 									</ul>
 								</div>
 							)}
@@ -305,6 +282,15 @@ const total = experience.length;
 		border-color: var(--new);
 	}
 
+	/* The shipped panel sizes to its chips rather than stretching with the
+	   skills panel above it. Fanatics shipped one app, and a full-width box
+	   holding one chip is mostly empty stock. The floor keeps the label's rule
+	   long enough to read as a rule. */
+	.step-row__panel--shipped {
+		align-self: start;
+		min-width: min(100%, 15rem);
+	}
+
 	/*
 	 * Below the three-column threshold the panels drop back under the prose,
 	 * where they read side by side again as they did before. Kept in sync with
@@ -327,10 +313,12 @@ const total = experience.length;
 			flex: 2 1 22rem;
 		}
 
-		/* Wider basis than the old text list needed, and no max-width: the tile
-		   grid wants room for at least three plates per row before it wraps. */
+		/* Narrower basis than the skills panel and capped: the app names are a
+		   handful of short chips, so left unbounded this panel claimed width it
+		   had nothing to put in. */
 		.step-row__panel--shipped {
-			flex: 1 1 16rem;
+			flex: 1 1 12rem;
+			max-width: 22rem;
 		}
 	}
 
@@ -352,103 +340,48 @@ const total = experience.length;
 	}
 
 	/*
-	 * Shipped apps as marks rather than a name list.
+	 * Shipped apps use the same chip as the skills above, deliberately.
 	 *
-	 * The logos are ink monochrome, not the full-colour store icons: the
-	 * palette is spent on two accents (see DESIGN.md), and eight gradient
-	 * rounded-squares would break both that and the no-rounded-shapes rule.
-	 * `npm run logos` does the flattening — scripts/logos.mjs.
+	 * An earlier pass rendered each app as a logo plate. It was dropped, and
+	 * not for layout reasons: the marks belong to former clients, the store
+	 * listings drift under them — Dreamforce is "SF Events" now — and
+	 * flattening a trademark to monochrome to fit this palette is altering
+	 * someone else's mark to make a point about mine. A recruiter needs the
+	 * word "CES", which the chip already gives them.
 	 *
-	 * A wrapping row of fixed-size plates, not a stretch grid. An `auto-fit`
-	 * grid with `1fr` tracks looks right at four apps and fails at one: the
-	 * lone Fanatics tile stretched to the full 489px panel. A plate is a
-	 * physical size — 2.2 stud — so it stays that size whatever the count, and
-	 * the row simply wraps when it runs out of width.
+	 * Same component, so a role's two panels read as one parts list in two
+	 * sections rather than two unrelated displays.
 	 */
-	.apps {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.85rem 0.7rem;
-		margin-top: 0.9rem;
+	/* A linked app hands its padding to the anchor so the whole chip is the
+	   target, not an underlined word inside a frame. An app with no public
+	   listing keeps the chip's own padding and is simply not clickable. */
+	.chip--app:has(> a) {
+		padding: 0;
 	}
 
-	.app {
-		width: calc(var(--stud) * 2.2);
-	}
-
-	.app__link {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.4rem;
-		text-align: center;
-		text-decoration: none;
+	.chip--app > a {
+		display: block;
+		padding: 0.3rem 0.58rem;
 		color: inherit;
-	}
-
-	/* A 1:1 plate holding the mark. Square corners and a 2px keyline: this is
-	   a part in a tray, not an app icon on a home screen. */
-	.app__tile {
-		display: grid;
-		place-items: center;
-		width: 100%;
-		aspect-ratio: 1;
-		border: var(--keyline-thin) solid var(--ink);
-		background: var(--paper);
-		transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.app__mark {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		/* Mix into the tile rather than sitting on it: any residual off-white
-		   from the source icon's padding disappears into the paper. */
-		mix-blend-mode: multiply;
-	}
-
-	/* The no-logo fallback. Two letters, same plate, so an app without a mark
-	   still reads as a part rather than a gap. */
-	.app__monogram {
-		font-size: 1.05rem;
-		font-weight: 800;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--ink);
-	}
-
-	.app__name {
-		font-size: 0.74rem;
-		font-weight: 700;
-		letter-spacing: 0.06em;
-		line-height: 1.25;
-		text-transform: uppercase;
-		/* The name is the label under the plate; it wraps rather than
-		   truncating, because "Invoice Reporter" must stay readable. */
-		text-wrap: balance;
+		text-decoration: none;
+		transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	/* Red on hover is sanctioned for app lists — it reads as "this is the live
 	   part" (DESIGN.md, Arriving Red). */
-	.app__link:hover .app__tile,
-	.app__link:focus-visible .app__tile {
-		border-color: var(--new);
-	}
-
-	.app__link:hover .app__name,
-	.app__link:focus-visible .app__name {
+	.chip--app > a:hover {
 		color: var(--new);
 	}
 
-	/* The whole tile is the target, so the default text-shaped focus ring would
-	   sit oddly; the ring goes on the plate instead. */
-	.app__link:focus-visible {
-		outline: none;
+	.chip--app > a:focus-visible {
+		outline: var(--keyline-thin) solid var(--ink);
+		outline-offset: 2px;
 	}
 
-	.app__link:focus-visible .app__tile {
-		outline: var(--keyline) solid var(--ink);
-		outline-offset: 3px;
+	@media (prefers-reduced-motion: reduce) {
+		.chip--app > a {
+			transition: none;
+		}
 	}
 
 	/*
@@ -465,29 +398,6 @@ const total = experience.length;
 			/* Second column, under the body: the numeral track stays empty so
 			   the panels keep the prose's left edge. */
 			grid-column: 2;
-		}
-	}
-
-	/*
-	 * On paper the marks are already ink on white, so they need no treatment —
-	 * but blend modes are unreliable across print engines and would risk the
-	 * tile printing as a grey block. Printing the image plainly is safe because
-	 * the source is monochrome to begin with.
-	 */
-	@media print {
-		.app__mark {
-			mix-blend-mode: normal;
-		}
-
-		.app__tile {
-			border-color: #000;
-		}
-
-		/* Force the marks to print: browsers drop background images by default,
-		   and these are content, not decoration. */
-		.apps {
-			-webkit-print-color-adjust: exact;
-			print-color-adjust: exact;
 		}
 	}
 
