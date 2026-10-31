@@ -4,7 +4,7 @@ Personal resume / portfolio site — a static page built with [Astro](https://as
 designed as an instruction booklet where a twelve-year career reads as a numbered
 assembly sequence.
 
-**Live:** https://franzeszperez.github.io/
+**Live:** https://francescperez.dev/
 
 ---
 
@@ -235,33 +235,60 @@ GitHub serves the one repo named `<username>.github.io` at the domain root. Any
 other name serves under a subpath (`/repo-name/`) and would need `base` set in
 `astro.config.mjs`, with every asset path depending on that prefix.
 
-### Moving to a custom domain
+### The custom domain
 
-1. Buy the domain. GitHub charges nothing for this; you pay the registrar.
-2. In **Settings → Pages → Custom domain**, enter it. This writes a `CNAME` file
-   to the repo.
-3. At the registrar, point DNS at GitHub: four `A` records to `185.199.108.153`,
-   `185.199.109.153`, `185.199.110.153`, `185.199.111.153` — or a `CNAME` to
-   `franzeszperez.github.io` if using a subdomain like `www`.
-4. Tick **Enforce HTTPS** once the certificate is issued (can take an hour).
-5. Change `site` in `astro.config.mjs` to the new URL and push.
+The site serves at **`francescperez.dev`**, registered at Cloudflare Registrar
+and using Cloudflare DNS. Three things in this repo have to agree on that:
 
-Step 5 matters: `site` is what makes canonical and Open Graph tags absolute. If
-it is stale, shared links and search results point at the old address.
+| File | Why it matters if stale |
+| --- | --- |
+| `public/CNAME` | GitHub reads this to decide which host to answer for. Wrong value, wrong host, 404. |
+| `site` in `astro.config.mjs` | Makes canonical and Open Graph tags absolute. Stale, and shared links point at the old address while the site itself works fine. |
+| `public/og.png` | Prints the host in its footer. It's a PNG, so nothing lints the text inside it — `scripts/og-image.mjs` reads `public/CNAME` so a move can't be forgotten here. Re-run `npm run og`. |
+
+DNS, at Cloudflare, **proxy off (grey cloud)** on the site records — the orange
+cloud makes Cloudflare and GitHub both try to terminate TLS:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| `A` | `@` | `185.199.108.153` |
+| `A` | `@` | `185.199.109.153` |
+| `A` | `@` | `185.199.110.153` |
+| `A` | `@` | `185.199.111.153` |
+| `CNAME` | `www` | `franzeszperez.github.io` |
+
+Then **Settings → Pages → Custom domain** on GitHub, and tick **Enforce HTTPS**
+once the certificate is issued — up to an hour, and the tickbox is disabled
+until it is.
+
+Changing domain again means all three files above plus the DNS records, and the
+old host keeps working as long as the `A` records stay.
 
 ---
 
 ## Privacy — deliberate, not an oversight
 
-**No email address and no phone number exist anywhere in this repo.** Not unused,
-not commented out — absent. A contact address on a public page is harvested by
-scrapers within days.
+**The published email is an alias, never the real inbox.** `hi@francescperez.dev`
+is a Cloudflare Email Routing rule that forwards to the real address, which
+appears nowhere in this repo. **No phone number exists here at all** — there is
+no alias equivalent for a phone number; publishing one means publishing the real
+one.
 
-Contact runs through LinkedIn instead. `primaryAction()` in `src/lib/stats.ts`
-derives the single yellow call-to-action: a `mailto:` if `profile.email` is set,
-otherwise the first profile link. Setting `email` in `resume.ts` switches every
-action back to email and restores the colophon's email row — no markup change
-needed.
+A `mailto:` on a public page *is* harvested by scrapers, usually within days.
+That is the cost of being reachable, not a reason to hide — the alias is what
+makes it survivable. When it fills with spam: delete the Cloudflare rule, add a
+new one with a different local part, change the one line in `resume.ts`. The
+real inbox is never involved.
+
+Obfuscation was considered and rejected. JS-assembled addresses and `AT`/`DOT`
+spelling barely slow a modern scraper, hurt usability for the recruiter you
+actually want, and the JavaScript kind would break the zero-JS build.
+
+`primaryAction()` in `src/lib/stats.ts` derives the single yellow
+call-to-action: a `mailto:` if `profile.email` is set, otherwise the first
+profile link. Clearing `email` in `resume.ts` reverts every action to LinkedIn
+and drops the colophon's email row — no markup change needed, which is what
+makes burning the alias a one-line edit.
 
 Commits are authored with a GitHub noreply alias for the same reason: a real
 address in public commit metadata is just as scrapeable as one on the page.
@@ -284,8 +311,11 @@ contact details that the site deliberately omits.
 - **`npm run og` needs Chrome installed**, and is not part of `npm run build`:
   the deploy runner has no browser, so the PNG is committed rather than
   generated in CI. Regenerate and commit it by hand after editing `profile`.
-- **Education entries carry no dates**, and all app-store URLs in `resume.ts` are
-  `null` — the links render as plain text until real URLs are added.
+- **Education entries carry no dates.**
+- **Store listings drift under the app names.** Every URL in `resume.ts` resolves
+  today, but the listings belong to former clients and get renamed — Dreamforce
+  now lists as *SF Events*. Worth re-checking occasionally: a dead link on a
+  resume is worse than no link.
 - **The Fickl and Eventbase date ranges overlap** in the source resume. `careerYears()`
   measures the career *span* rather than summing roles, so the total is not
   double-counted — but the two entries still read as concurrent on the page.

@@ -31,8 +31,9 @@ const act = primaryAction();
 			<dd>{profile.location}</dd>
 		</div>
 		{
-			/* Email only appears on the plate if one is set — see resume.ts. It
-			   is not, so the plate runs location then links. */
+			/* Email only appears on the plate if one is set — see resume.ts.
+			   Unsetting it drops this row and the plate runs location then
+			   links, which is what it did before the alias existed. */
 			profile.email && (
 				<div>
 					<dt>Email</dt>

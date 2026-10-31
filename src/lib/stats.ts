@@ -80,11 +80,11 @@ function isoNowMonth(now: Date = new Date()): string {
 /**
  * Where the page's primary action points, derived rather than hardcoded.
  *
- * Email is the strongest call to action when it exists, but `profile.email` is
- * deliberately unset so no address is published for scrapers to harvest. In
- * that case the first profile link — LinkedIn — becomes the action, which
- * still reaches a real inbox. Setting `email` in resume.ts switches every
- * action back to mailto with no markup change.
+ * Email is the strongest call to action, and `profile.email` now holds a
+ * forwarding alias rather than a personal inbox, so it is the action. Clearing
+ * it falls back to the first profile link — LinkedIn — which still reaches a
+ * real person, with no markup change either way. That fallback is what makes
+ * burning the alias a one-line edit rather than a redesign.
  */
 export interface PrimaryAction {
 	href: string;

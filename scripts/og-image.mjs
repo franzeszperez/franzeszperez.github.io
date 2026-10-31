@@ -27,6 +27,18 @@ import { careerYears, currentRole, shippedApps } from '../src/lib/stats.ts';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(root, 'public', 'og.png');
 
+/* The host printed in the card's footer, read from public/CNAME rather than
+   written here. The card is a PNG: a hardcoded host survives a domain move
+   invisibly, because nothing builds or lints the text inside an image. Falling
+   back to the Pages host covers the case where CNAME has been removed. */
+const SITE_HOST = (() => {
+	try {
+		return readFileSync(join(root, 'public', 'CNAME'), 'utf8').trim();
+	} catch {
+		return 'franzeszperez.github.io';
+	}
+})();
+
 /* Open Graph's own recommended size. LinkedIn, Slack and iMessage all crop to
    roughly 1.91:1, so anything important stays clear of the outer edge. */
 const WIDTH = 1200;
@@ -298,7 +310,7 @@ function html() {
 
 		<div class="foot">
 			<span>Kotlin · Compose · Spring Boot</span>
-			<span>franzeszperez.github.io</span>
+			<span>${SITE_HOST}</span>
 		</div>
 	</div>
 </body>

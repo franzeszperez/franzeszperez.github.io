@@ -11,12 +11,19 @@ export interface Profile {
 	location: string;
 	summary: string;
 	/**
-	 * Optional, and currently unset by choice: a mailto on a public page is
-	 * scraped within days. When absent, the site's primary action becomes
-	 * LinkedIn instead of email. Set it to switch back.
+	 * Optional. When set it becomes the site's primary action and appears on
+	 * the colophon plate; when absent both fall back to the first profile link.
+	 *
+	 * Publish an alias here, never a personal inbox. A mailto on a public page
+	 * is scraped within days — that is the cost of being reachable, not a
+	 * reason to hide, and an alias is what makes it survivable: when it fills
+	 * with spam you delete the forwarding rule and set a new local part here.
 	 */
 	email?: string;
-	/** Same reasoning as `email`, and likewise unset. */
+	/**
+	 * Still unset by choice. There is no alias equivalent for a phone number —
+	 * publishing one means publishing the real one.
+	 */
 	phone?: string;
 	links: Link[];
 }
@@ -92,11 +99,13 @@ export const profile: Profile = {
 	location: 'Barcelona, Spain',
 	summary:
 		'Product-driven engineer with 8+ years building offline-first Android apps and scalable backend systems in Kotlin, Java, and Spring Boot. I own features end to end — from architecture through implementation and testing — across mobile, CMS integrations, and microservices. I pioneered Jetpack Compose adoption and Kotlin Multiplatform initiatives at Eventbase, and lean on Clean Architecture, SOLID, and unidirectional data flow (MVI, MVVM) to keep systems maintainable.',
-	// No email and no phone here by choice. Both are private, and anything on a
-	// public page is scraped by spam bots within days. Contact runs through
-	// LinkedIn instead; a recruiter who asks can be given either directly.
-	// Adding an `email` back here re-enables the mailto actions automatically.
-
+	// An alias on the site's own domain, forwarded to the real inbox by
+	// Cloudflare Email Routing. The real address is never published, and if this
+	// one is scraped into uselessness the fix is a new forwarding rule and a new
+	// local part on this line — not a new personal inbox.
+	//
+	// Still no phone: see the note on `Profile.phone`.
+	email: 'hi@francescperez.dev',
 	links: [
 		{ label: 'LinkedIn', url: 'https://www.linkedin.com/in/francescperezpascual/' },
 	],

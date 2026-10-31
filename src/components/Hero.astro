@@ -23,9 +23,10 @@ const stepCount = experience.length;
 const act = primaryAction();
 
 /**
- * The link row carries whatever the primary action does not. With no email
- * published the action *is* LinkedIn, so repeating it underneath would be the
- * same destination twice in one box; the row then renders nothing at all.
+ * The link row carries whatever the primary action does not. With the email
+ * alias published the action is the mailto, so LinkedIn renders here. Clear
+ * `profile.email` and LinkedIn becomes the action instead — this filter is
+ * what stops it appearing twice in the same box.
  */
 const otherLinks = profile.links.filter((link) => link.url !== act.href);
 
