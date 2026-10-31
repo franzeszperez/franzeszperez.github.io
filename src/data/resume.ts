@@ -26,19 +26,21 @@ export interface Link {
 	url: string;
 }
 
-/** An app shipped as part of a role. `url` points at a store listing if public. */
+/**
+ * An app shipped as part of a role. `url` points at a store listing if public,
+ * and null when there is nothing to link — the name still renders.
+ *
+ * No logo field, by choice. Shipped apps render as name chips: the marks belong
+ * to former clients, the listings drift out from under them (Dreamforce is "SF
+ * Events" now), and a recruiter needs the word rather than a 44px icon. See the
+ * note on `.chip--app` in Experience.astro.
+ *
+ * Check these URLs occasionally. A dead store link on a resume is worse than no
+ * link, and an app renamed by its owner makes the entry look stale.
+ */
 export interface App {
 	name: string;
 	url: string | null;
-	/**
-	 * Filename of the app's mark inside `public/logos/`, e.g. `'ces.png'`.
-	 *
-	 * Optional: an app with no logo falls back to a drawn monogram tile, so the
-	 * row never renders a broken image or an empty box. Logos are ink
-	 * monochrome, not the full-colour store icon — `npm run logos` converts
-	 * them. See scripts/logos.mjs and DESIGN.md on the two-accent palette.
-	 */
-	logo?: string;
 }
 
 export interface Job {
@@ -143,7 +145,7 @@ export const experience: Job[] = [
 			'Developed highly customizable, offline-first event applications in Kotlin for global corporate clients including Cisco, Deloitte, CES, and SXSW.',
 			'Pioneered Jetpack Compose adoption across the organization by building an influential prototype and training engineers to accelerate platform-wide integration.',
 			'Led technical direction and system architecture for 10+ end-to-end features, collaborating closely with Product, Design, and Backend teams.',
-			'Spearheaded a Kotlin Multiplatform initiative, significantly reducing platform-specific code duplication between Android and iOS.',
+			'Spearheaded a Kotlin Multiplatform initiative (MagicBadge Scanner app), significantly reducing platform-specific code duplication between Android and iOS.',
 			'Optimized CI/CD build pipelines using Jenkins to achieve reliable, predictable release cycles.',
 			'Refactored legacy codebases to eliminate technical debt, improving app performance in low-connectivity event venues.',
 			'Upgraded 20+ core platform libraries to align with modern Android OS releases and Kotlin updates.',
@@ -163,6 +165,9 @@ export const experience: Job[] = [
 			{ name: 'SXSW GO', url: "https://play.google.com/store/apps/details?id=com.xomodigital.sxswgo&hl=en" },
 			{ name: 'CES', url: "https://play.google.com/store/apps/details?id=com.cta.cestech&hl=en" },
 			{ name: 'Salesforce', url: "https://play.google.com/store/apps/details?id=com.salesforce.dreamforce&hl=en" },
+			{ name: 'MagicBadge Scanner', url: "https://play.google.com/store/apps/details?id=com.eventbase.magicbadge.scanner&hl=en" },
+			{ name: 'SAP Live Events', url: "https://play.google.com/store/apps/details?id=com.eventbase.saplive&hl=en" },
+			{ name: 'Many more', url: null },
 		],
 	},
 	{
